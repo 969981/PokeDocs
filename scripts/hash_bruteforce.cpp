@@ -129,7 +129,7 @@ struct Search {
 };
 void insertLeaf(std::map<string,Leaf>& leaves,string v,string rule,string source) {
     if(v.size()<2||v.size()>180||v.find('\t')!=string::npos)return;
-    leaves.try_emplace(v,Leaf{std::move(v),std::move(source),std::move(rule)});
+    leaves.try_emplace(v,Leaf{v,source,rule});
 }
 std::vector<string> getBaseNames(const std::vector<Entry>& rows) {
     std::set<string> bases;
@@ -244,7 +244,7 @@ void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pai
         "Check_","get","set","Allow","IsNot","CanNot"
     };
     std::map<string,string> stems;
-    std::set<string> words;
+    std::map<string,unsigned> word_freq;
     for(const auto& e:rows)if(!e.name.empty()&&(e.kind=="s"||e.kind=="f")){
         if(e.name.size()<=100)stems.try_emplace(e.name,e.name);
         for(const string& verb:verbs)if(starts(e.name,verb)&&e.name.size()>verb.size()+2){
@@ -252,7 +252,7 @@ void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pai
             stems.try_emplace(tail,e.name);
         }
         for(const string& w:camelWords(e.name))if(w.size()>=3&&w.size()<=24)
-            words.insert(w);
+            ++word_freq[w];
     }
     for(const auto& e:rows)if(e.kind=="c"&&!e.name.empty()) {
         auto p=e.name.rfind('.');
@@ -275,8 +275,15 @@ void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pai
     if(search.stopped)return;
     // Two words from the game-native vocabulary, with a full verb stem.
     // 500 words => about 250k nominal stems and <=20m exact hash checks.
-    std::vector<string> ws(words.begin(),words.end());
-    // Prefix preference: longer-than-one-letter proper CamelCase source tokens.
+    std::vector<std::pair<string,unsigned>> ranked_words(word_freq.begin(),word_freq.end());
+    std::sort(ranked_words.begin(),ranked_words.end(),[](const auto& a,const auto& b){
+        return a.second!=b.second?a.second>b.second:a.first<b.first;
+    });
+    // Keep a balanced, reproducible vocabulary; otherwise class-name noise
+    // creates billions of pair combinations and crowds out domain suffixes.
+    if(ranked_words.size()>600) ranked_words.resize(600);
+    std::vector<string> ws;
+    for(const auto& row:ranked_words)ws.push_back(row.first);
     start=search.attempts;
     for(const auto& a:ws)for(const auto& b:ws){
         string noun=a+b;
@@ -285,6 +292,19 @@ void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pai
             if(!check(v+noun,"verb_plus_two_native_words",a+"+"+b))goto end_pairs;
     }
     end_pairs:phases.push_back({"verb_x_two_native_camel_words",search.attempts-start});
+    if(search.stopped)return;
+    // Bounded 3-word compositions, frequency sorted by observed names; this
+    // phase tests nouns omitted from existing full identifiers.
+    start=search.attempts;
+    for(size_t ia=0;ia<std::min<size_t>(80,ws.size());++ia)
+      for(size_t ib=0;ib<std::min<size_t>(80,ws.size());++ib)
+        for(size_t ic=0;ic<std::min<size_t>(80,ws.size());++ic) {
+          string noun=ws[ia]+ws[ib]+ws[ic];
+          if(noun.size()>80)continue;
+          for(const auto& v:verbs)
+            if(!check(v+noun,"verb_plus_three_native_words",ws[ia]+"+"+ws[ib]+"+"+ws[ic]))goto end_triples;
+        }
+    end_triples:phases.push_back({"verb_x_three_frequent_native_words",search.attempts-start});
     if(search.stopped)return;
     // One symbol-derived stem plus one documented noun, to extend actual
     // event/action names without arbitrary full-alphabet enumeration.
