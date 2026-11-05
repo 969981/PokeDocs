@@ -1,0 +1,66 @@
+name: Independent Lua brute-force candidate validation
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'scripts/verify_hash_bruteforce.py'
+      - '.github/workflows/lua-hash-candidate-verify.yml'
+      - 'docs/evidence/hash-bruteforce-2026-11-05/*-summary.json'
+      - 'docs/evidence/hash-bruteforce-2026-11-05/*-matches.tsv'
+      - 'SV/Hashlists/Lua/*.txt'
+      - 'ZA/Hashlists/Lua/*.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lua-hash-independent-verify-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  cross-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 3
+          filter: blob:none
+          sparse-checkout: |
+            scripts/verify_hash_bruteforce.py
+            SV/Hashlists/Lua
+            ZA/Hashlists/Lua
+            docs/evidence/hash-bruteforce-2026-11-05
+            docs/evidence/lua-join-2026-11-05/sv-native-class-queue.tsv
+            docs/evidence/lua-closure-2026-11-05/za-current-155.tsv
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recalculate every 64-bit candidate and check blank-row identities
+        run: |
+          python scripts/verify_hash_bruteforce.py --repo . \
+            --input-dir docs/evidence/hash-bruteforce-2026-11-05 \
+            --report docs/evidence/hash-bruteforce-2026-11-05/audit-summary.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lua-hash-independent-H2-audit-${{ github.run_number }}
+          path: docs/evidence/hash-bruteforce-2026-11-05/audit-summary.json
+          retention-days: 60
+
+      - name: Save independent H2-only audit on develop
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -f docs/evidence/hash-bruteforce-2026-11-05/audit-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'analysis(lua): publish independent H2 candidate verification'
+          git fetch origin develop
+          git rebase origin/develop
+          git push origin HEAD:develop
