@@ -82,3 +82,31 @@ status: EXACT_HASH_H2_CANDIDATES_NATIVE_ORIGINAL_UNCONFIRMED
 4. **工具边界：** 搜索全程只读 Hashlist，输出含 `method / prefix_source / leaf_or_stem_source`，每条命中都能重新生成。可复现的 C++ 程序及 CI 入口已提交，可独立用 `--budget` 调整计算规模。
 
 关联：[[Hash-Evidence-Standards]]、[[Lua-Proto-Owner-Join-2026-11-05]]、[[SV-Lua-Factory-Metatable-2026-11-05]]、[[ZA-Lua-Closure-Receiver-2026-11-05]]。
+
+
+## 5. 第二轮：H2 种子 + 局部命名语法扩展（已成功）
+
+第二轮在**不修改 Hashlist**的情况下，将第一轮 24 条完整匹配作为 H2-only grammar seeds，新增命名空间局部 prefix×stem×suffix 与 top-150 高频 CamelCase 三词组合。所有 H2 种子先重新计算完整 64 位 Hash，错误种子直接失败；合成测试包含篡改种子拒绝。执行结果：[GitHub Actions 42031392850](https://github.com/969981/PokeDocs/actions/runs/42031392850) 全部成功。
+
+| 统计 | SV C | ZA S/F |
+| --- | ---: | ---: |
+| 本轮计算候选 | 152,216,932 | 388,577,622 |
+| 本轮所有命中（含第一轮重现） | 12 | 15 |
+| **相对第一轮新增** | **0** | **3** |
+| 最大预算 | 650,000,000 | 650,000,000 |
+| 预算耗尽 | 否 | 否 |
+
+第二轮 **540,794,554** 次计算，累计两轮 **849,825,215** 次候选计算（不是 8.498 亿个完全去重后的字符串）。最终去重 H2 候选 **27 条**：SV C 12、ZA S 9、ZA F 6。
+
+| ZA 原始行 | Hash | 本轮新增 H2 精确字符串 | 原生范围 |
+| ---: | --- | --- | --- |
+| S 72 | `1463948047021356` | `Get_BossNameIndex` | 2.0.2 四包目标常量池仍没有该 Hash |
+| F 151 | `931F8A64586A46A6` | `ShowMessageNpcEvent` | 待与具体函数/接收对象结合 |
+| S 616 | `BE4399F61C307041` | `WaitCreateObjectTemplate` | 待沿关联 C→S 原型追踪 |
+
+尤其是 `Get_BossNameIndex` 是从上一轮 `Get_BossName` H2 种子扩展的第二个精确命中，两者对应原来 5 个四包缺失 S Hash 中的 **2 个**。这是候选字符串间的相关性及 Hash 验证，仍然不能声称它们实际存在于这四个 BLUA 的字节码或已经拿到原版 UTF-8 符号。
+
+- [SV 第二轮统计](evidence/hash-bruteforce-2026-11-05/sv-round2-summary.json) / [逐行结果](evidence/hash-bruteforce-2026-11-05/sv-round2-matches.tsv)
+- [ZA 第二轮统计](evidence/hash-bruteforce-2026-11-05/za-round2-summary.json) / [逐行结果](evidence/hash-bruteforce-2026-11-05/za-round2-matches.tsv)
+
+后续已不建议继续扩大第一轮同类 namespace×suffix 枚举：SV 此次未新增匹配。应转向 **ZA megarematch 事件的第三方 Haxe 上下文词汇** 与 SV 结构化类语义的原生来源。全部正式未知基线仍未修改。
