@@ -36,3 +36,5 @@ tags: [PokeDocs, Obsidian, reverse-engineering]
 所有实际文件内容以对应 Git 提交为准；此目录的记录可以随着新证据增量更新。
 
 - [[SV-Library-BLua-CF-Assignments|SV 字节码 C→prototype→F 的指令级关系与证据]]
+
+- [[SV-Library-BLua-F-Dispatch|SV 16 处未知 F 的 SELF→CALL 调用链与对象来源]]

@@ -74,3 +74,5 @@ python scripts/lua_hash.py verify
 技术限制：本轮是一个严谨的、可复核的 **连续 8 指令模式识别器**，不是覆盖所有可能的 Lua 编译形式的通用控制流分析器。没有匹配不代表不存在其他形式的赋值关系。
 
 关联：[[SV-Library-BLua-Audit]]、[[Lua-Source-Evidence]]、[[Hash-Evidence-Standards]]。
+
+下一阶段 `GETFIELD/SETFIELD/SELF` 指令与静态调用关系的真实分析：[[SV-Library-BLua-F-Dispatch]]。
