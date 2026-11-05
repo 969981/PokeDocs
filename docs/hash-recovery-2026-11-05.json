@@ -1,0 +1,837 @@
+{
+  "date": "2026-11-05",
+  "hash_algorithm": "FNV-1a 64; custom basis 0xCBF29CE484222645; UTF-8",
+  "counts": {
+    "SV/Hashlists/Lua/lua_c_hashes.txt": {
+      "named": 1911,
+      "blank": 1375,
+      "recovered": 29
+    },
+    "SV/Hashlists/Lua/lua_e_hashes.txt": {
+      "named": 215,
+      "blank": 2,
+      "recovered": 0
+    },
+    "SV/Hashlists/Lua/lua_f_hashes.txt": {
+      "named": 8348,
+      "blank": 116,
+      "recovered": 9
+    },
+    "SV/Hashlists/Lua/lua_s_hashes.txt": {
+      "named": 5793,
+      "blank": 830,
+      "recovered": 17
+    },
+    "ZA/Hashlists/Lua/lua_c_hashes.txt": {
+      "named": 1202,
+      "blank": 0,
+      "recovered": 0
+    },
+    "ZA/Hashlists/Lua/lua_e_hashes.txt": {
+      "named": 0,
+      "blank": 3,
+      "recovered": 3
+    },
+    "ZA/Hashlists/Lua/lua_f_hashes.txt": {
+      "named": 127,
+      "blank": 138,
+      "recovered": 2
+    },
+    "ZA/Hashlists/Lua/lua_s_hashes.txt": {
+      "named": 201,
+      "blank": 632,
+      "recovered": 7
+    }
+  },
+  "recovered": [
+    {
+      "hash": "0x09A82F76179381A5",
+      "name": "main.util.tween.TweenPathType",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_e_hashes.txt",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "hash": "0x132D1C4DB569CA6C",
+      "name": "main.env.ground_effect.control.CitySmokeControl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 196
+        }
+      ]
+    },
+    {
+      "hash": "0x13A53B75C424EC5B",
+      "name": "main.env.ground_effect.control.generator.CameraEffectGenerator",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 200
+        }
+      ]
+    },
+    {
+      "hash": "0x1B31858F892D5657",
+      "name": "main.env.ground_effect.control.generator.EffectGeneratorBase",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 298
+        }
+      ]
+    },
+    {
+      "hash": "0x2007C313B2A115BE",
+      "name": "SetWorldPosition",
+      "method": "prefix",
+      "source": "GetWorldPosition",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 108
+        }
+      ]
+    },
+    {
+      "hash": "0x24A0EE9DA3D20C83",
+      "name": "main.env.ground_effect.control.SmokeFogControl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 405
+        }
+      ]
+    },
+    {
+      "hash": "0x27CDAABC4F71901C",
+      "name": "main.env.ground_effect.control.SnowSmokeControl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 450
+        }
+      ]
+    },
+    {
+      "hash": "0x2A471B048BC98EF4",
+      "name": "main.env.ground_effect.control.WindGrassControl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 468
+        }
+      ]
+    },
+    {
+      "hash": "0x2C0CB2A899B13B3E",
+      "name": "StepLoadCommonBg01",
+      "method": "numeric",
+      "source": "StepLoadCommonBg00",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1205
+        }
+      ]
+    },
+    {
+      "hash": "0x34151E5FC1F4190A",
+      "name": "CHR_S_CHILDM_03",
+      "method": "numeric",
+      "source": "CHR_S_CHILDM_02",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1425
+        }
+      ]
+    },
+    {
+      "hash": "0x39CF03F7ED22975F",
+      "name": "main.env.ground_effect.GroundEffectSmokeFogConfig",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 711
+        }
+      ]
+    },
+    {
+      "hash": "0x3BB535305A9A1B98",
+      "name": "main.env.field_effect._FieldEffectSwitcher.Impl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 732
+        }
+      ]
+    },
+    {
+      "hash": "0x3E2CCD54ED5431DE",
+      "name": "main.env.ground_effect.control.generator.WindGrassEffectGenerator",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 762
+        }
+      ]
+    },
+    {
+      "hash": "0x4265B71F82A4D3BA",
+      "name": "POKE_DERUBIRU10",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1789
+        }
+      ]
+    },
+    {
+      "hash": "0x42691C1F82A7B530",
+      "name": "POKE_DERUBIRU01",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1790
+        }
+      ]
+    },
+    {
+      "hash": "0x42691E1F82A7B896",
+      "name": "POKE_DERUBIRU03",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1791
+        }
+      ]
+    },
+    {
+      "hash": "0x42691F1F82A7BA49",
+      "name": "POKE_DERUBIRU02",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1792
+        }
+      ]
+    },
+    {
+      "hash": "0x4269201F82A7BBFC",
+      "name": "POKE_DERUBIRU05",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1793
+        }
+      ]
+    },
+    {
+      "hash": "0x4269221F82A7BF62",
+      "name": "POKE_DERUBIRU07",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1795
+        }
+      ]
+    },
+    {
+      "hash": "0x4269231F82A7C115",
+      "name": "POKE_DERUBIRU06",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1796
+        }
+      ]
+    },
+    {
+      "hash": "0x4269241F82A7C2C8",
+      "name": "POKE_DERUBIRU09",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1797
+        }
+      ]
+    },
+    {
+      "hash": "0x4269251F82A7C47B",
+      "name": "POKE_DERUBIRU08",
+      "method": "numeric",
+      "source": "POKE_DERUBIRU04",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 1798
+        }
+      ]
+    },
+    {
+      "hash": "0x47FC22BE531BAE18",
+      "name": "main.env.ground_effect.GroundEffectSnowSmokeConfig",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 885
+        }
+      ]
+    },
+    {
+      "hash": "0x4C726895FF1578F9",
+      "name": "main.env.ground_effect.control.SandSmokeControl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 965
+        }
+      ]
+    },
+    {
+      "hash": "0x4FD6A1AC26499C16",
+      "name": "main.env.ground_effect.control.SmokeControlBase",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1017
+        }
+      ]
+    },
+    {
+      "hash": "0x508E73DD9108DF26",
+      "name": "onObjPokeModelScaleValueChanged",
+      "method": "case",
+      "source": "OnObjPokeModelScaleValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 2633
+        }
+      ]
+    },
+    {
+      "hash": "0x52DB4EAAAD6AC29B",
+      "name": "SetScale",
+      "method": "prefix",
+      "source": "GetScale",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 262
+        }
+      ]
+    },
+    {
+      "hash": "0x5918BECABEC63037",
+      "name": "main.system.coroutine.InternalState",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_e_hashes.txt",
+          "line": 2
+        }
+      ]
+    },
+    {
+      "hash": "0x5E2B25200DF7A0A6",
+      "name": "onObjAnimTimeScaleValueChanged",
+      "method": "case",
+      "source": "OnObjAnimTimeScaleValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 3061
+        }
+      ]
+    },
+    {
+      "hash": "0x64B8D3715D09DA74",
+      "name": "main.env.ground_effect.GroundEffectWindGrassConfig",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1329
+        }
+      ]
+    },
+    {
+      "hash": "0x6B775BB7672636C6",
+      "name": "SCENE_STEP4",
+      "method": "numeric",
+      "source": "SCENE_STEP1",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 2873
+        }
+      ]
+    },
+    {
+      "hash": "0x6B775DB767263A2C",
+      "name": "SCENE_STEP2",
+      "method": "numeric",
+      "source": "SCENE_STEP1",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 2874
+        }
+      ]
+    },
+    {
+      "hash": "0x6B775EB767263BDF",
+      "name": "SCENE_STEP3",
+      "method": "numeric",
+      "source": "SCENE_STEP1",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 2875
+        }
+      ]
+    },
+    {
+      "hash": "0x6F3E782FAF30D435",
+      "name": "main.env.ground_effect.GroundEffectControlConfig",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1435
+        }
+      ]
+    },
+    {
+      "hash": "0x7E4DD1EBE21A85CC",
+      "name": "main.env.ground_effect.control.RaindropsControl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1629
+        }
+      ]
+    },
+    {
+      "hash": "0x81B0D46CE16C5B54",
+      "name": "main.env.ground_effect.GroundEffectRainDropConfigs",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1683
+        }
+      ]
+    },
+    {
+      "hash": "0x82E517173EC4A7A7",
+      "name": "onMonsNoValueChanged",
+      "method": "case",
+      "source": "OnMonsNoValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 4244
+        }
+      ]
+    },
+    {
+      "hash": "0x84E01EC2D62ED7DB",
+      "name": "onSexTypeValueChanged",
+      "method": "case",
+      "source": "OnSexTypeValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 4312
+        }
+      ]
+    },
+    {
+      "hash": "0x8BA3B4518741A17F",
+      "name": "onEditPickupDataValueChanged",
+      "method": "case",
+      "source": "OnEditPickupDataValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 4530
+        }
+      ]
+    },
+    {
+      "hash": "0x8F7AE2638186E74F",
+      "name": "main.env.ground_effect.control.generator.GroundEffectGenerator",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1885
+        }
+      ]
+    },
+    {
+      "hash": "0x8FAB716DB9C67174",
+      "name": "GetIsFinish",
+      "method": "prefix",
+      "source": "SetIsFinish",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 146
+        }
+      ]
+    },
+    {
+      "hash": "0x93A0ED567E185F6C",
+      "name": "main.env.ground_effect.GroundEffectConfig",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1936
+        }
+      ]
+    },
+    {
+      "hash": "0x967F1FA48596AFC5",
+      "name": "main.env.ground_effect.GroundEffectGenerate",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 1967
+        }
+      ]
+    },
+    {
+      "hash": "0x969791696476F097",
+      "name": "onObjOffsetPosXValueChanged",
+      "method": "case",
+      "source": "OnObjOffsetPosXValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 4903
+        }
+      ]
+    },
+    {
+      "hash": "0x9B3EF6CCB56B42E7",
+      "name": "OnSkip",
+      "method": "case",
+      "source": "onSkip",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 163
+        }
+      ]
+    },
+    {
+      "hash": "0xA5EA85D96A5EBA15",
+      "name": "main.util._PSTableAccessor.PSTableAccessor_Impl_",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 2131
+        }
+      ]
+    },
+    {
+      "hash": "0xAE477FE8B7B2F7D4",
+      "name": "main.util.tween.TweenLoopType",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_e_hashes.txt",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "hash": "0xAEECD2EE6996A886",
+      "name": "onIsDefultModeValueChanged",
+      "method": "case",
+      "source": "OnIsDefultModeValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 5741
+        }
+      ]
+    },
+    {
+      "hash": "0xAF981B669D917580",
+      "name": "main.event.general.area_script.AreaEnter_a_sch_room03",
+      "method": "numeric",
+      "source": "main.event.general.area_script.AreaEnter_a_sch_room02",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 2247
+        }
+      ]
+    },
+    {
+      "hash": "0xAF981D669D9178E6",
+      "name": "main.event.general.area_script.AreaEnter_a_sch_room01",
+      "method": "numeric",
+      "source": "main.event.general.area_script.AreaEnter_a_sch_room02",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 2249
+        }
+      ]
+    },
+    {
+      "hash": "0xB0F3F0CD7D326D7F",
+      "name": "main.env.ground_effect.GroundEffectSandSmokeConfig",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 2263
+        }
+      ]
+    },
+    {
+      "hash": "0xB2DBA92A12482E2B",
+      "name": "SetWorldRotation",
+      "method": "prefix",
+      "source": "GetWorldRotation",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 579
+        }
+      ]
+    },
+    {
+      "hash": "0xB335988BD2FD4FC6",
+      "name": "onStateTypeValueChanged",
+      "method": "case",
+      "source": "OnStateTypeValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 5867
+        }
+      ]
+    },
+    {
+      "hash": "0xBB0ACA2D0182E28F",
+      "name": "main.env.ground_effect.control.generator.IEffectGenerator",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 2352
+        }
+      ]
+    },
+    {
+      "hash": "0xC15087309BCBB48E",
+      "name": "onFormNoValueChanged",
+      "method": "case",
+      "source": "OnFormNoValueChanged",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+          "line": 6339
+        }
+      ]
+    },
+    {
+      "hash": "0xC706B7C02933B741",
+      "name": "main.env.ground_effect.control.GroundEffectControlBase",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 2500
+        }
+      ]
+    },
+    {
+      "hash": "0xD03C4F2A038DF506",
+      "name": "main.env.ground_effect.control.generator.MidRangeBirdEffectGenerator",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 2611
+        }
+      ]
+    },
+    {
+      "hash": "0xD9491972A59BD708",
+      "name": "SetTurn",
+      "method": "prefix",
+      "source": "GetTurn",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 709
+        }
+      ]
+    },
+    {
+      "hash": "0xEBE66699E5CF6917",
+      "name": "IsSick",
+      "method": "prefix",
+      "source": "GetSick",
+      "locations": [
+        {
+          "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 755
+        }
+      ]
+    },
+    {
+      "hash": "0xEF683BA4C71BC8EC",
+      "name": "OPEN_WAY_02",
+      "method": "numeric",
+      "source": "OPEN_WAY_01",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 6182
+        }
+      ]
+    },
+    {
+      "hash": "0xF139E60DDE5354B2",
+      "name": "main.env.ground_effect.control.MidRangeBirdNightControl",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 3110
+        }
+      ]
+    },
+    {
+      "hash": "0xF55159DC26CADF9E",
+      "name": "main.env.ground_effect.control._GroundEffectControlType.GroundEffectControlTypeFunc_Impl_",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 3174
+        }
+      ]
+    },
+    {
+      "hash": "0xF667EB15F51B1829",
+      "name": "IterativeLerpVec2",
+      "method": "numeric",
+      "source": "IterativeLerpVec3",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 6374
+        },
+        {
+          "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 797
+        }
+      ]
+    },
+    {
+      "hash": "0xF667ED15F51B1B8F",
+      "name": "IterativeLerpVec4",
+      "method": "numeric",
+      "source": "IterativeLerpVec3",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 6375
+        },
+        {
+          "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+          "line": 798
+        }
+      ]
+    },
+    {
+      "hash": "0xFCC532A987EEAC69",
+      "name": "main.env.ground_effect.CameraEffectGenerate",
+      "method": "cross-hashlist",
+      "source": "existing verified Lua name",
+      "locations": [
+        {
+          "path": "SV/Hashlists/Lua/lua_c_hashes.txt",
+          "line": 3257
+        }
+      ]
+    }
+  ],
+  "ambiguous": []
+}
