@@ -1,0 +1,35 @@
+{
+  "source": {
+    "PokeDocs_develop_commit": "779b9ba896ba4c8adf375008e5b71e62243f65ea",
+    "ZA_Resources_master_commit": "bd2dd71af077b39e7c5d844c57bc1081710e3fdd"
+  },
+  "SV": {
+    "unknown_C_total": 1334,
+    "dual_C_count": 95,
+    "dual_C_static_S_edges": 252,
+    "dual_C_global_register_edges": 95,
+    "direct_C_to_F_in_dual_queue": 0
+  },
+  "ZA": {
+    "unknown_S": 114,
+    "unknown_F": 41,
+    "unknown_S_native_opcode": 109,
+    "unknown_F_native_opcode": 41,
+    "unknown_S_with_adjacent_calls": 27,
+    "unknown_F_with_adjacent_calls": 26,
+    "unknown_S_native_C_to_S": 101,
+    "unknown_S_with_Haxe_references": 114,
+    "unknown_S_with_both_native_and_Haxe": 109,
+    "unresolved_adjacent_call_edges": 559,
+    "unresolved_native_opcode_refs": 2068,
+    "unknown_S_without_indexed_opcode": [
+      "0x062729EC443620C2",
+      "0x1463948047021356",
+      "0x34AD86B7E5BB1526",
+      "0x81E0610BF8B9337C",
+      "0xD0F61B3481E43C08"
+    ]
+  },
+  "mapping_updates": 0,
+  "evidence_note": "Static assignments/opcode references are NOT original names or runtime receiver identity."
+}
