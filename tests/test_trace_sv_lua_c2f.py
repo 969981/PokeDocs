@@ -91,6 +91,22 @@ class TestTrace(unittest.TestCase):
             [b"CFD9B049511E682DA", b"prototype", b"F7C68FEDB79AB6396"], [child])
         self.assertEqual(len(rows), 0)
 
+    def test_unknown_f_fields_inside_short_child_proto(self):
+        token = b"F33571D8C0B39C3CD"
+        child = mkproto([ins(14, a=0, b=0, c=0),
+                         ins(18, a=0, b=0, c=0, k=0), ins(71)], [token], 0, ())
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "synthetic.blua"
+            path.write_bytes(HEADER + b"\x01" + mkproto([ins(71)], [], 1, [child]))
+            reader = AssignmentReader(path)
+            reader.target_unknown_f = {int(token[1:], 16)}
+            report = reader.scan_assignments()
+            self.assertEqual(report["assignments"], 0)
+            refs = reader.unknown_f_references
+            self.assertEqual(len(refs), 2)
+            self.assertEqual([x["opcode"] for x in refs], ["GETFIELD", "SETFIELD"])
+            self.assertEqual([x["pc"] for x in refs], [0, 1])
+
     def test_invalid_child_reference_is_rejected(self):
         child = mkproto([ins(71)], [], 0, ())
         code = self.sample()

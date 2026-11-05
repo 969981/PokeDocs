@@ -45,7 +45,7 @@ SETTABLE   Rbase, Rkey, Rvalue    ; k=0
 - 来源 `main.blua` 根 Proto 0，`PC 342676–342683`
 - 类名常量加载 `PC 342677`，`prototype` 读取 `PC 342680`，函数键加载 `PC 342681`
 - `CLOSURE PC 342682` 的 child index `24320` 实际映射到 **Proto 29004**
-- `SETTABLE PC 342683`，文件原始偏移 **1,370,773（0x14EAB5）**（偏移以十进制字段为准）
+- `SETTABLE PC 342683`，文件原始偏移 **1,370,773（0x14EA95）**（偏移以十进制字段为准）
 
 同一个 C 类的直接赋值共 6 条，分别位于根 Proto 的 PC 342683、342691、342699、342707、342715、342723；可以继续到这些子 Proto 分析方法内部实际字段与调用。
 
@@ -63,13 +63,13 @@ SETTABLE   Rbase, Rkey, Rvalue    ; k=0
 仓库新增 `scripts/trace_sv_lua_c2f.py`，标准库 Python 3.10+。在已拥有原始文件的机器上运行：
 
 ```powershell
-python scripts/trace_sv_lua_c2f.py "D:\\SV\\main.blua" "D:\\SV\\main_dynamic.blua" --repo . --game SV --report docs/sv-c2f-native-report.json --assignments sv_c2f_assignments.tsv.gz
+python scripts/trace_sv_lua_c2f.py "D:\\SV\\main.blua" "D:\\SV\\main_dynamic.blua" --repo . --game SV --report docs/sv-c2f-native-report.json --assignments sv_c2f_assignments.tsv.gz --references sv_unmapped_f_references.tsv.gz
 
 python -m unittest discover -s tests -v
 python scripts/lua_hash.py verify
 ```
 
-TSV.gz 会记录所有 23,727 条：文件、Proto ID、类 Hash、函数 Hash、Closure Proto ID、PC、物理字节偏移、K 索引和寄存器；**源文件本身不会提交到 GitHub**，只输出可核查的派生证据。
+第一个 TSV.gz 会记录所有 23,727 条：文件、Proto ID、类 Hash、函数 Hash、Closure Proto ID、PC、物理字节偏移、K 索引和寄存器；**第二个 TSV.gz 记录 16 个未知 F 的 33 处 `GETFIELD`/`SETFIELD` 证据（Proto、PC、物理偏移、被引用 Hash、经闭包归属确认的所在方法），不会推断目标函数身份。**源文件本身不会提交到 GitHub****，只输出可核查的派生证据。
 
 技术限制：本轮是一个严谨的、可复核的 **连续 8 指令模式识别器**，不是覆盖所有可能的 Lua 编译形式的通用控制流分析器。没有匹配不代表不存在其他形式的赋值关系。
 
