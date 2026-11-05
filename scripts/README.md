@@ -76,3 +76,24 @@ See [the November 5th research audit](../docs/Lua-Hash-BruteForce-2026-11-05.md)
 
 
 The follow-up [trace_sv_factory_metatable.py](trace_sv_factory_metatable.py) proves the shared Lua table factory (root R15 / child Proto 19), its captured metatable R13, and exactly 95 `_ENV[C].__name__ = C` native metadata writes using the original SHA-pinned `main.blua`. It does **not** prove dynamic instance identity or readable class names. For local reproduction, use the same `--main`, `--parser`, `--registrations`, `--static` inputs, and pass the C hashlist as `--unknown` instead of `--hashlist`; output is supplied with `--out`. See [SV factory evidence](../docs/SV-Lua-Factory-Metatable-2026-11-05.md).
+
+
+### ZA event-context batch and 28-entry H2 overlay
+
+The event-specific third round is an optimized prefix-state FNV-1a search restricted to the `Ev_sys_megarematch` rebuilt Haxe context and five previously missing S targets:
+
+~~~bash
+g++ -std=c++20 -O3 -DNDEBUG scripts/brute_za_megarematch_context.cpp -o brute_za_megarematch
+mkdir -p outputs
+./brute_za_megarematch --out outputs/za-megarematch --budget 400000000
+~~~
+
+The reproducible H2-only overlay is derived from all five completed TSV batches (two rounds plus the ZA event-specific batch), and **never updates `SV/Hashlists/Lua` or `ZA/Hashlists/Lua`**:
+
+~~~bash
+python scripts/verify_hash_bruteforce_round2.py --repo . --out docs/evidence/hash-bruteforce-2026-11-05/round2-audit-summary.json
+python scripts/build_lua_h2_overlay.py --repo .
+python scripts/build_lua_h2_overlay.py --repo . --check
+~~~
+
+See [the 28-entry H2 overlay](../docs/evidence/hash-bruteforce-2026-11-05/h2-candidate-overlay.tsv) and [the entire study](../docs/Lua-Hash-BruteForce-2026-11-05.md). The third round actually evaluated **317,296,440** candidates; total across all three rounds was **1,167,121,655** candidate attempts (not distinct strings).
