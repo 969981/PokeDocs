@@ -1,0 +1,13 @@
+game	kind	line	hash	candidate	method	prefix_source	leaf_or_stem_source
+SV	c	24	0x016904F481BF082D	main.system.prohibit._Prohibit.Prohibit_Impl_	haxe_nested_impl_class	main.system.prohibit.ProhibitNode	Prohibit
+SV	c	1050	0x5177E949076BBE48	main.system.game_event.IGameEventScript	stem_plus_class_suffix	main.system.game_event.GameEventFailedRideOnMessage	IGameEvent
+SV	c	1438	0x6F7A8CF2CB565DD3	main.ui.xmenu.xmenu_state_machine.XMenuStateBase	stem_plus_class_suffix	main.ui.xmenu.xmenu_state_machine.XMenuMainState	XMenuState
+SV	c	1657	0x7FA9D0451CA273B7	main.ui.hyper_training.SceneHyperTraining	class_prefix_composition	main.ui.hyper_training.state.HyperTrainingMainState	HyperTraining
+SV	c	1706	0x837BB966ECC5B849	dll_danbattle.ai.partner.DanPartnerPokemonController	stem_plus_class_suffix	dll_danbattle.ai.partner.DanPartnerPokemonBehavior	DanPartnerPokemon
+SV	c	1911	0x91B78F1802B84B80	dll_danbattle.ai.partner.DanPartnerManagerModel	stem_plus_class_suffix	dll_danbattle.ai.partner.DanPartnerPokemonBehavior	DanPartnerManager
+SV	c	2277	0xB2DCC287A7876860	main.ui.ymap.npc_navi.YmapNpcNavigationDataAccessor	stem_plus_class_suffix	main.ui.ymap.npc_navi.YmapNpcNavigationDataManager	YmapNpcNavigationData
+SV	c	2427	0xC19222E56D8434C9	main.field.behaviour.base._FieldObject.FieldObject_Impl_	haxe_nested_impl_class	main.field.behaviour.base.NpcListManager	FieldObject
+SV	c	2625	0xD1AB2595B97752F1	main.field.behaviour.out_of_range.FieldOutOfRangeData	stem_plus_class_suffix	main.field.behaviour.out_of_range.FieldOutOfRangeManager	FieldOutOfRange
+SV	c	2657	0xD3A213C7225B68B3	main.playables.free_move.ctrl._ActorControl.ActorControl_Impl_	haxe_nested_impl_class	main.playables.free_move.ctrl.ActorControlBehavior	ActorControl
+SV	c	2867	0xE0D511325372F946	main.system.game_event.base.BaseGameEvent	class_prefix_composition	main.system.game_event.base.IGameEvent	GameEvent
+SV	c	3189	0xF67A67452D018ECC	main.system.game_event.base.GameEventManager	stem_plus_class_suffix	main.system.game_event.base.IGameEvent	GameEvent

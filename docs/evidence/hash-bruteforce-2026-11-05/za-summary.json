@@ -1,0 +1,19 @@
+{
+ "mode":"za",
+ "hash_algorithm":"FNV-1a 64-bit exact UTF-8 bytes",
+ "offset_basis":"0xCBF29CE484222645",
+ "target_unknown_hashes":155,
+ "attempted_candidates":162271660,
+ "max_candidates":300000000,
+ "budget_exhausted":false,
+ "exact_hash_matching_candidates":12,
+ "native_original_names_confirmed":0,
+ "hashlist_updates":0,
+ "phases":{
+  "verb_x_known_symbol_stem":1969600,
+  "verb_x_two_native_camel_words":28440000,
+  "verb_x_three_frequent_native_words":40448000,
+  "verb_x_stem_x_domain_suffix":91414060
+ },
+ "limitations":"H2 dictionary-grammar exact hash only; source string identity and runtime type unproven. Missing candidates are not absent symbols."
+}
