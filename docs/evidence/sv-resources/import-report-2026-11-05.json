@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-05",
+  "source_repository": "969981/SV_Resources",
+  "source_commit": "a0c7905204ffd87421d3e9009f88d58822f5bb94",
+  "target_repository": "969981/PokeDocs",
+  "target_branch": "develop",
+  "target_commit_before": "8c69c4f2162bfa641ffed085de10ba2618d8a5fa",
+  "hash_algorithm": {
+    "basis": "0xCBF29CE484222645",
+    "prime": "0x100000001B3",
+    "encoding": "UTF-8"
+  },
+  "za": {
+    "candidates": 611,
+    "hash_validated": 611,
+    "source_corrob": 599,
+    "hash_only": 12,
+    "already_present": 72,
+    "inserted": 539,
+    "inserted_f": 79,
+    "inserted_s": 460,
+    "conflicts": 0
+  },
+  "sv": {
+    "new_native_correlated_f": 4,
+    "inserted_f": 4,
+    "conflicts": 0
+  },
+  "total_new_names": 543,
+  "remaining_unknown_after": {
+    "SV": {
+      "c": 1338,
+      "e": 2,
+      "f": 103,
+      "s": 800
+    },
+    "ZA": {
+      "c": 0,
+      "e": 0,
+      "f": 43,
+      "s": 116
+    },
+    "total": 2402
+  },
+  "evidence_notation": "All names remain hash-exact candidates; native opcode context does not prove runtime execution or original source naming.",
+  "source_blob_shas": {
+    "SVf": {
+      "path": "SV/Hashlists/Lua/lua_f_hashes.txt",
+      "sha": "d38954746f9ccb139ce1d748354c82c71b1f4de8"
+    },
+    "ZAf": {
+      "path": "ZA/Hashlists/Lua/lua_f_hashes.txt",
+      "sha": "0b6769bef2a1e15fbecf0d50a41f5d3892aa12cf"
+    },
+    "ZAs": {
+      "path": "ZA/Hashlists/Lua/lua_s_hashes.txt",
+      "sha": "f318f233e4c5d2d4187b0ba3f3d1b749bbd0c550"
+    },
+    "ZA_REC": {
+      "path": "tools/PokeDocs-Supplement/ZA/Hashlists/Lua/recovered.tsv",
+      "sha": "1cab1faec3cf7aa442280cac0db2e32d8b266b0e"
+    },
+    "ZA_IDX": {
+      "path": "tools/PokeDocs-Supplement/ZA/Hashlists/Lua/source-line-index.tsv",
+      "sha": "76679809704b93b5f51e33f788549a3ee8efe40c"
+    },
+    "ZA_SRC": {
+      "path": "tools/PokeDocs-Supplement/ZA/Hashlists/Lua/source-evidence.tsv",
+      "sha": "26aea6bb781406232e6325ca85aa80a47de84332"
+    },
+    "SV_NEW": {
+      "path": "tools/PokeDocs-Supplement/SV/Hashlists/Lua/native-4.0.0/followup-f-new-exact-candidates.tsv",
+      "sha": "f190c6e49764b3b92ab0c5602627827685d10469"
+    },
+    "SV_BIND": {
+      "path": "tools/PokeDocs-Supplement/SV/Hashlists/Lua/native-4.0.0/followup-f-callback-name-evidence.tsv",
+      "sha": "34de7375ce75af9180f094063fc2e0957a7f12dd"
+    }
+  }
+}

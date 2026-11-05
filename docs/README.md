@@ -13,6 +13,7 @@ tags: [PokeDocs, Obsidian, reverse-engineering]
 - [[Hash-Recovery-Workflow|未知 Hash 的候选恢复和回填操作]]
 - [[Hash-Recovery-Results|第一轮：67 行 Hash 恢复]]
 - [[Hash-Recovery-Round2|第二轮：84 行新增候选与来源审计]]
+- [[SV-Resources-Research-Sync-2026-11-05|第三轮：同步 SV_Resources 的 543 条新映射与原生分析证据]]
 - [[Lua-Source-Evidence|Lua 源码与原生字节码审计]]
 - [[SV-Library-BLua-Audit|Library 两份原生 BLUA 完整结构读取与对账]]
 - [[Hash-Evidence-Standards|技术证据级别与可信度]]
@@ -23,7 +24,7 @@ tags: [PokeDocs, Obsidian, reverse-engineering]
 
 - 当前算法已核验：`SV/Hashlists/Lua/lua_{c,e,f,s}_hashes.txt` 与 `ZA/Hashlists/Lua/lua_{c,e,f,s}_hashes.txt`。
 - 第一轮恢复 67 行，第二轮再恢复 84 行；全部是精确 Hash 候选，证据见 [[Hash-Recovery-Results]] 与 [[Hash-Recovery-Round2]]。
-- 当前剩余空白 Lua 行数：2,945（2026-11-05 第二轮快照），未被原生调用链确认的名称仍标记 H2。
+- 第二轮历史快照剩余 2,945 行；SV_Resources 同步后新增 543 条候选，**当前剩余 2,402 行**（SV 2,243 / ZA 159）。Hash 精确匹配的名称仍按 H2 标识，见 [[SV-Resources-Research-Sync-2026-11-05]]。
 - ZA TRPAK 内部文件路径已有五组样本验证为同一 FNV-1a 64 变体；外层归档键与 GFPAKHashCache.bin 仍需独立验证。
 
 ## 代码与证据

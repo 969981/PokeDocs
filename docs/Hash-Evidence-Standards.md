@@ -11,8 +11,11 @@ tags: [evidence, reverse-engineering, audit]
 | H2 | 对原样 UTF-8 字符串计算的完整 64 位 Hash 等于目标、且唯一 | Hash 已匹配，可标注算法与来源 |
 | H3 | H2 且有游戏脚本、字符串、函数注册或加载行为的独立证据 | 对象/功能语义已验证 |
 
-本轮 67 行恢复属于 H2：其中有跨列表同名映射、序号或前缀推导，并且所有结果重新计算完整 Hash。只有回溯 Lua 字符串源或游戏实际消费者后才升级到 H3。
+第一轮的 67 行恢复属于 H2：其中有跨列表同名映射、序号或前缀推导，并且所有结果重新计算完整 Hash。只有回溯 Lua 字符串源或游戏实际消费者后才升级到 H3。
 
 建议每条记录留存 `game`、`version`、`hash`、`candidate`、`hash_algorithm`、`source_file`、`source_line`、`method`、`commit_sha`、`confidence`。大规模匹配时保留原始 UTF-8 名称，检查同一 Hash 对应多个候选的碰撞。未知值不可用猜测冒充已恢复值。
 
 本轮证据：[[Hash-Recovery-Results]] 和 `hash-recovery-2026-11-05.json`。
+## 2026-11-05 跨仓库同步约束
+
+第三轮从 SV_Resources 合并 543 条新候选，均须通过 H2 完整哈希校验与原始行号复核。ZA 的 Haxe 重建源是第三方交叉证据，SV 的回调赋值是原生 Opcode 上下文；两者均**不能仅凭 Hash 相等宣称取得游戏原始源码符号名称或者已运行的消费者语义**。来源与状态见 [[SV-Resources-Research-Sync-2026-11-05]]。

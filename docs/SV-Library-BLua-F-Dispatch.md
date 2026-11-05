@@ -5,6 +5,8 @@ status: STATIC_DISPATCH_CONFIRMED_RUNTIME_UNCONFIRMED
 
 # SV 未知 F 的真实字段对象与 SELF → CALL 静态关系
 
+> [!NOTE] 本文的 107 条未知 F 和 2,945 条全表未知数量均为**2026-11-05 本轮研究时的历史快照**。SV_Resources 第三轮与 ZA 补全已经合并；当前全表剩余 2,402 条、SV F 剩余 103 条。最新对账见 [[SV-Resources-Research-Sync-2026-11-05]]。
+
 > [!IMPORTANT] 分析的确是 Library 原始 **`main.blua` / `main_dynamic.blua`** 的 Lua 5.4 字节码；文件头不能单独验证游戏是 SV 4.0.0。**`SELF→CALL` 表示字节码存在静态可达方法调用路径**，不表示运行时已实际走到该路径，也不能把被调用 Hash 自动改写为原始函数名。
 
 ## 重新审计后的计数

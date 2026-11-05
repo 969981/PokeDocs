@@ -26,3 +26,7 @@ python scripts/trinity_path_hash.py recover --targets unknown.txt --dictionary p
 ```
 
 Exact path bytes are required. Do not silently lowercase or normalize slashes. See [../docs/FileSystem-Hashes.md](../docs/FileSystem-Hashes.md).
+
+## Cross-repository evidence merge verification (2026-11-05)
+
+`python scripts/verify_sv_resources_import.py` validates 611 pinned ZA name/hash candidates, 4 SV F callbacks, their original source line numbers, independent evidence TSV, and all currently named SV/ZA Lua hashes without writing to hashlists. The exact pinned sources and provenance are under [`../docs/evidence/sv-resources/`](../docs/evidence/sv-resources/). See [`../docs/SV-Resources-Research-Sync-2026-11-05.md`](../docs/SV-Resources-Research-Sync-2026-11-05.md).

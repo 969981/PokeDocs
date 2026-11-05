@@ -16,3 +16,5 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Verify SV and ZA names
         run: python scripts/lua_hash.py verify
+      - name: Audit pinned SV_Resources evidence and source-line indices
+        run: python scripts/verify_sv_resources_import.py

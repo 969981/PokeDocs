@@ -10,7 +10,7 @@ status: TOOL_READY_SOURCE_NOT_EXTRACTED
 - [[Hash-Recovery-Round2|第二轮]] 已回填 84 个唯一 Hash，剩余 2,945 行（截至 2026-11-05）。
 - SV-Script-RE 历史 3.0.1 版本 `data/lua_names.h` 内只新增一个与当前空白 C Hash 严格对应的名字：`main.ui.hud_info.HudInfoPlayer`。
 - 此历史头文件与当前列表另有 4 个同 Hash 不同名，不能直接合并。保留原记录，报告冲突。
-- SV 4.0.0 原生 `.blua` 目前只在 `SV_Resources` 的归档 **索引**中定位，不能宣称已经提取或解码。
+- 此项是**早期研究阶段的历史记录**：SV 4.0.0 的 `.blua` 当时仅在归档索引定位。后续已从 Library 完整读取并解析，且 SV_Resources 补充了同 SHA 的原生来源证据，最新状态见 [[SV-Library-BLua-Audit]] 与 [[SV-Resources-Research-Sync-2026-11-05]]。
 - 上游真实参考：[SV-Script-RE](https://github.com/Martmists-GH/SV-Script-RE/tree/1f843bd2517c707fbb47491dad58856eaa2c2cc7)，其反编译代码主要对应 3.0.1 时代。
 
 ## 以源码／头文件生成带来源的匹配报告
@@ -32,8 +32,8 @@ python scripts/scan_lua_evidence.py --game SV --source "D:\\Research\\SV-Script-
 
 | 虚拟路径 | Pack Index | 包大小 | 进度 |
 | --- | ---: | ---: | --- |
-| `script/lua/bin/release/main/main.blua` | 21977 | 2,966,760 bytes | 已定位，未取得原始字节码 |
-| `script/lua/bin/release/main_dynamic/main_dynamic.blua` | 21978 | 1,028,024 bytes | 已定位，未取得原始字节码 |
+| `script/lua/bin/release/main/main.blua` | 21977 | 2,966,760 bytes | 归档位置已定位；另有完整字节码实测 |
+| `script/lua/bin/release/main_dynamic/main_dynamic.blua` | 21978 | 1,028,024 bytes | 归档位置已定位；另有完整字节码实测 |
 
 拿到原始文件后在本地运行：
 
@@ -78,6 +78,10 @@ python scripts/lua_hash.py verify
 
 因为旧版 header 的 1 条原名已在第二轮提前回填，**此处 0 是增量命中，不是表示整个历史源码没有任何已知名称**。
 
-> [!IMPORTANT] **现有公开历史源码进一步挖掘已无新增**，而 SV 4.0.0 的 `main.blua` / `main_dynamic.blua` 在 `SV_Resources` 中仍只确认了 TRPFD 索引位置（21977、21978）。后续必须以实际原始字节码、场景/脚本字符串和调用上下文取得新来源，不能把原始 Hash 值对应的 C/F 文件名当作已经还原的可读符号名。
+> [!IMPORTANT] **截至该轮，公开历史源码扫描没有新增**，而 SV 4.0.0 的 `main.blua` / `main_dynamic.blua` 在 `SV_Resources` 中仍只确认了 TRPFD 索引位置（21977、21978）。后续必须以实际原始字节码、场景/脚本字符串和调用上下文取得新来源，不能把原始 Hash 值对应的 C/F 文件名当作已经还原的可读符号名。
 
 ZA 的对应原始 Lua 脚本尚未取得和验证，本次不虚报 ZA 原生恢复进度。
+
+## 最新进度补充（2026-11-05）
+
+本页原始的“仅找到 TRPFD 索引、尚未取得 BLUA”属于当时状态；现已从 Library 两个完整 Lua 5.4 字节码建立 Proto、C→F、SELF→CALL 和 C→S 静态赋值索引。SV_Resources 提供四个新增 F 名称的 Hash 精确及原生回调绑定证据；ZA 新增 539 个未命名 F/S 精确候选。正式 Hashlist 已同步，剩余 2,402 行；具体版本与边界见 [[SV-Resources-Research-Sync-2026-11-05]]。

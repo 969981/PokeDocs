@@ -8,6 +8,7 @@ Archive of Flatbuffers, hashes and other metadata used in Switch Pokémon games.
 - [Hash algorithm and verified test vectors](docs/Hash-Algorithms.md)
 - [Lua hash restoration workflow](docs/Hash-Recovery-Workflow.md)
 - [Verified recovery report](docs/Hash-Recovery-Results.md)
+- [SV_Resources 2026-11-05 synchronization (543 new names; native-context audit)](docs/SV-Resources-Research-Sync-2026-11-05.md)
 - [Python CLI](scripts/README.md)
 
 The Lua and FileSystem hash families must **not** be assumed to use identical algorithms. Research artifacts are kept traceable to their sources. This branch does not change the default branch.

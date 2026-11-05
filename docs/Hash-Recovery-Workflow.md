@@ -55,3 +55,7 @@ git diff -- SV/Hashlists/Lua ZA/Hashlists/Lua
 优先从已解包 Lua 字节码、运行时函数名、完整脚本、枚举、跨版本差异与真实资源路径收集 **可引用的字典**。增量保留字典来源和版本、验证差异、提交 SHA，再将高可信候选回填。不要通过相邻数字的直接推断绕过完整 64 位验证。
 
 参见 [[Hash-Algorithms]]、[[Hash-Evidence-Standards]]。
+
+## 外部研究证据的已审计导入
+
+SV_Resources 的固定提交候选已在 `develop` 的第三轮核验，并保留完整来源 TSV；详见 [[SV-Resources-Research-Sync-2026-11-05]]。执行 `python scripts/verify_sv_resources_import.py` 只读核对已回填行、完整 Hash、原始行号、重复冲突和证据文件，不会再自动写回。后续外部快照变更必须重新审阅来源和冲突后才能更新，不能仅运行 `recover --apply` 就把第三方重建符号当作原生语义确认。

@@ -6,6 +6,8 @@ source: user-Library
 
 # SV Lua C → prototype → F：实际指令级归属证据
 
+> [!NOTE] 本文的 107 条未知 F 和 2,945 条全表未知数量均为**2026-11-05 本轮研究时的历史快照**。SV_Resources 第三轮与 ZA 补全已经合并；当前全表剩余 2,402 条、SV F 剩余 103 条。最新对账见 [[SV-Resources-Research-Sync-2026-11-05]]。
+
 > [!IMPORTANT] 本文基于 Library 实际保存的 `main.blua` 与 `main_dynamic.blua`，不是仅凭 Hash 同时出现。已逐条校验 Lua 5.4 的寄存器、常量索引、闭包子原型，且两文件均读到末尾。**能够确认的是字节码赋值链，不是运行时函数调用，也不是未命名 Hash 的明文还原**。文件头只能证明 Lua 5.4，不能独立确认 SV 4.0.0。
 
 ## 实测摘要
