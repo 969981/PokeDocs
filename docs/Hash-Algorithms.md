@@ -56,4 +56,4 @@ FNV-1a 是多对一的非加密 Hash，不存在可普遍恢复唯一原名的�
 
 ## 不能混用的算法
 
-`SV/Hashlists/FileSystem/`、`ZA/Hashlists/FileSystem/` 中的存档路径哈希以及 `GFPAKHashCache.bin` 的序列化格式，已有五组 ZA TRPAK 内部资源路径经独立对账使用相同的 offset basis、宽度及 UTF-8 字节算法；但外层归档键的输入规范与 GFPAKHashCache.bin 文件序列化仍未验证。请查阅 [[FileSystem-Hashes]]。
+目前已通过五组 ZA TRPAK **内部资源路径** 对账：它们与 Lua 符号采用相同的 64 位 FNV-1a 变体、offset basis 和 UTF-8 编码，但必须以原始路径字符串作为输入。外层 `@arc` 归档键的预处理方式，以及 `GFPAKHashCache.bin` 的二进制序列化格式，尚未完成验证。工具为 `scripts/trinity_path_hash.py`，细节见 [[FileSystem-Hashes]]。

@@ -159,12 +159,12 @@ def markdown_report(entries, targets, records, ambiguous):
              "| Hash | 名称 | 策略 | 来源 | 文件位置 |",
              "| --- | --- | --- | --- | --- |"]
     for r in records:
-        locations = ", ".join(f"\`{v['path']}:{v['line']}\`" for v in r["locations"])
-        lines.append(f"| \`{r['hash']}\` | \`{r['name']}\` | {r['method']} | "
-                     f"\`{r['source']}\` | {locations} |")
+        locations = ", ".join(f"`{v['path']}:{v['line']}`" for v in r["locations"])
+        lines.append(f"| `{r['hash']}` | `{r['name']}` | {r['method']} | "
+                     f"`{r['source']}` | {locations} |")
     if ambiguous:
-        lines += ["", "## 歧义（不回填）", "", "\`\`\`json",
-                  json.dumps(ambiguous, indent=2, ensure_ascii=False), "\`\`\`"]
+        lines += ["", "## 歧义（不回填）", "", "```json",
+                  json.dumps(ambiguous, indent=2, ensure_ascii=False), "```"]
     return "\n".join(lines) + "\n"
 
 
