@@ -258,7 +258,7 @@ void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pai
         auto p=e.name.rfind('.');
         string leaf=e.name.substr(p==string::npos?0:p+1);
         if(ident(leaf)&&leaf.size()<=80)stems.try_emplace(leaf,e.name);
-        for(const auto& w:camelWords(leaf))if(w.size()>=3&&w.size()<=24)words.insert(w);
+        for(const auto& w:camelWords(leaf))if(w.size()>=3&&w.size()<=24)++word_freq[w];
     }
     auto check=[&](const string& name,const string& kind,const string& source) {
         return search.offer(name,kind,source,"source-derived grammar");
