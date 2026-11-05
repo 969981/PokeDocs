@@ -1,0 +1,75 @@
+{
+  "evidence": "NATIVE_LUA54_INSTRUCTION_CHAIN_C_PROTOTYPE_F_ASSIGNMENT",
+  "input_origin": "User Library root: /main.blua and /main_dynamic.blua",
+  "actual_game_version": "unverified_by_header",
+  "pattern": [
+    "GETUPVAL",
+    "LOADK(C...)",
+    "GETTABLE",
+    "LOADK(prototype)",
+    "GETTABLE",
+    "LOADK(F...)",
+    "CLOSURE",
+    "SETTABLE"
+  ],
+  "first_8_instruction_consecutive_match": true,
+  "requires_same_register_dataflow": true,
+  "requires_settable_value_is_register": true,
+  "requires_closure_child_index_in_range": true,
+  "files": [
+    {
+      "file": "main.blua",
+      "sha256": "c1a4f4e2625912cf0b739a642a79ba3357df0557a544b92da22a6cb139de2815",
+      "bytes": 12912264,
+      "protos": 37743,
+      "exact_assignment_records": 18991,
+      "different_C": 2705,
+      "different_F": 9917
+    },
+    {
+      "file": "main_dynamic.blua",
+      "sha256": "ae4a7d0168751f53af11746ac5ae7771cb1a5bfa580bcc0f79e2b9ee85acb572",
+      "bytes": 5342713,
+      "protos": 7036,
+      "exact_assignment_records": 4736,
+      "different_C": 744,
+      "different_F": 369
+    }
+  ],
+  "totals": {
+    "exact_assignment_records": 23727,
+    "distinct_C": 3449,
+    "distinct_F": 10260,
+    "unique_C_F_pairs": 23727,
+    "unknown_F_in_SV_PokeDocs": 107,
+    "unknown_F_seen_as_any_bytecode_constant": 16,
+    "unknown_F_seen_as_strict_prototype_definition": 0,
+    "unknown_F_not_seen_in_these_two_files": 91
+  },
+  "unknown_F_reference_followup": {
+    "GETFIELD": 13,
+    "SETFIELD": 20,
+    "observed_total": 33,
+    "references_inside_directly_registered_closure": 29,
+    "note": "Opcode references are not runtime calls or name recovery."
+  },
+  "example": {
+    "C": "CFD9B049511E682DA",
+    "C_candidate_name": "main.ui.hud_info.HudInfoPlayer",
+    "F": "F7C68FEDB79AB6396",
+    "F_known_name": "Setup",
+    "file": "main.blua",
+    "outer_proto": 0,
+    "pc_start": 342676,
+    "class_load_pc": 342677,
+    "proto_lookup_pc": 342680,
+    "function_load_pc": 342681,
+    "closure_pc": 342682,
+    "settable_pc": 342683,
+    "settable_byte_offset": 1370773,
+    "closure_child_index": 24320,
+    "closure_proto": 29004
+  },
+  "limits": "Static Lua 5.4 instructions prove an assignment path only; no proof of runtime execution or original names for unknown hashes. Source version must be validated against ROM manifest.",
+  "unknown_lua_hashlist_rows_after_audit": 2945
+}
