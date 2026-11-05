@@ -1,0 +1,37 @@
+name: SV native Lua shared factory synthetic verification
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'scripts/trace_sv_factory_metatable.py'
+      - 'tests/test_sv_factory_metatable.py'
+      - '.github/workflows/lua-native-factory-tests.yml'
+  pull_request:
+    paths:
+      - 'scripts/trace_sv_factory_metatable.py'
+      - 'tests/test_sv_factory_metatable.py'
+      - '.github/workflows/lua-native-factory-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts/trace_sv_factory_metatable.py
+            tests/test_sv_factory_metatable.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax and synthetic Lua opcode checks (no game data)
+        run: |
+          python -m py_compile scripts/trace_sv_factory_metatable.py
+          python -m unittest discover -s tests -p test_sv_factory_metatable.py -v
