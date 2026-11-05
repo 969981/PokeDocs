@@ -19,3 +19,5 @@ tags: [SV, ZA, LA, SWSH, LGPE, files]
 表中 c/e/f/s 依据来源文件名区分；其“类/枚举/函数/字符串”的具体语义需要结合实际 Lua 结构验证，不能单凭文件名确定全部类别。
 
 恢复数据遵循 [[Hash-Recovery-Workflow]]；文件系统路径另见 [[FileSystem-Hashes]]。
+
+已确认 ZA TRPAK **内部**路径哈希计算，见 [[FileSystem-Hashes]]；这不等同于外层归档 Hash 或缓存文件格式。

@@ -21,7 +21,7 @@ tags: [PokeDocs, Obsidian, reverse-engineering]
 - 当前算法已核验：`SV/Hashlists/Lua/lua_{c,e,f,s}_hashes.txt` 与 `ZA/Hashlists/Lua/lua_{c,e,f,s}_hashes.txt`。
 - 本轮源数据恢复：65 个不同 64 位 Hash，合计 67 行；源记录与详细来源见 [[Hash-Recovery-Results]] 和 `hash-recovery-2026-11-05.json`。
 - 仍空白的 Lua 行数：3,029（2026-11-05 快照），不是已经反推成功的值。
-- FileSystem 资源路径的 Hash 算法必须另行验证；不能直接套用 Lua 的算法。
+- ZA TRPAK 内部文件路径已有五组样本验证为同一 FNV-1a 64 变体；外层归档键与 GFPAKHashCache.bin 仍需独立验证。
 
 ## 代码与证据
 
