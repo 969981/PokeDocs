@@ -1,0 +1,85 @@
+name: ZA megarematch original-H2 context brute force
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'scripts/brute_za_megarematch_context.cpp'
+      - '.github/workflows/lua-za-megarematch-bruteforce.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  megarematch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 3
+          filter: blob:none
+          sparse-checkout: |
+            scripts/brute_za_megarematch_context.cpp
+            ZA/Hashlists/Lua/lua_s_hashes.txt
+
+      - name: Compile FNV prefix-state accelerated native search
+        run: g++ -std=c++20 -O3 -DNDEBUG -Wall -Wextra scripts/brute_za_megarematch_context.cpp -o /tmp/brute_megarematch
+
+      - name: Exhaust documented boss/name/spn/message context candidates
+        run: |
+          mkdir -p outputs
+          /tmp/brute_megarematch --out outputs/za-megarematch --budget 400000000
+          cat outputs/za-megarematch-summary.json
+          cat outputs/za-megarematch-matches.tsv
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Independently verify every SHA/row/name against original blank S index
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          targets={}
+          for lineno,line in enumerate(Path('ZA/Hashlists/Lua/lua_s_hashes.txt').read_text().splitlines(),1):
+              cols=line.split(maxsplit=1)
+              if len(cols) and cols[0].startswith('0x'):
+                  targets[lineno]=(int(cols[0],16),cols[1].strip() if len(cols)>1 else '')
+          rows=list(csv.DictReader(Path('outputs/za-megarematch-matches.tsv').open(),delimiter='\t'))
+          for x in rows:
+              h=0xcbf29ce484222645
+              for c in x['candidate'].encode('utf-8'):h=((h^c)*0x100000001b3)&0xffffffffffffffff
+              assert h==int(x['hash'],16),x
+              assert x['kind']=='S' and x['game']=='ZA'
+              assert targets[int(x['line'])]==(h,''),x
+          report=json.loads(Path('outputs/za-megarematch-summary.json').read_text())
+          assert report['native_original_name_confirmations']==0
+          assert report['hashlist_updates']==0
+          assert len({x['hash'] for x in rows})==report['matched_unique_target_hashes']
+          print('Independently verified original blank-row exact H2 hashes:',len(rows))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: za-megarematch-H2-context-${{ github.run_number }}
+          path: outputs/
+          retention-days: 60
+
+      - name: Publish bounded H2 evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/hash-bruteforce-2026-11-05
+          cp outputs/za-megarematch-summary.json docs/evidence/hash-bruteforce-2026-11-05/
+          cp outputs/za-megarematch-matches.tsv docs/evidence/hash-bruteforce-2026-11-05/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -f docs/evidence/hash-bruteforce-2026-11-05/za-megarematch-*
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'analysis(za): publish bounded mega-rematch S-hash H2 candidates'
+          git fetch origin develop
+          git rebase origin/develop
+          git push origin HEAD:develop
