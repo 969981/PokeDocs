@@ -58,3 +58,5 @@ python scripts/audit_sv_dual_global_slot.py --main "D:\SV\main.blua" --parser "D
 ~~~
 
 See [../docs/Lua-Proto-Owner-Join-2026-11-05.md](../docs/Lua-Proto-Owner-Join-2026-11-05.md) for counts and limitations.
+
+The follow-up [trace_sv_factory_metatable.py](trace_sv_factory_metatable.py) proves the shared Lua table factory (root R15 / child Proto 19), its captured metatable R13, and exactly 95 `_ENV[C].__name__ = C` native metadata writes using the original SHA-pinned `main.blua`. It does **not** prove dynamic instance identity or readable class names. For local reproduction, use the same `--main`, `--parser`, `--registrations`, `--static` inputs, and pass the C hashlist as `--unknown` instead of `--hashlist`; output is supplied with `--out`. See [SV factory evidence](../docs/SV-Lua-Factory-Metatable-2026-11-05.md).
