@@ -1,0 +1,57 @@
+name: Audit historical SV Lua sources
+on:
+  push:
+    branches: [develop]
+    paths:
+      - scripts/scan_lua_evidence.py
+      - .github/workflows/lua-source-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  historical-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout PokeDocs develop
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch pinned SV-Script-RE (historical 3.0.1-era only)
+        shell: bash
+        env:
+          PINNED_COMMIT: 1f843bd2517c707fbb47491dad58856eaa2c2cc7
+        run: |
+          set -euo pipefail
+          SOURCE="$RUNNER_TEMP/sv-script-re"
+          mkdir -p "$SOURCE"
+          git -C "$SOURCE" init
+          git -C "$SOURCE" remote add origin https://github.com/Martmists-GH/SV-Script-RE.git
+          git -C "$SOURCE" sparse-checkout init --cone
+          git -C "$SOURCE" sparse-checkout set data decompiled
+          git -C "$SOURCE" fetch --depth 1 origin "$PINNED_COMMIT"
+          git -C "$SOURCE" checkout --detach FETCH_HEAD
+          test "$(git -C "$SOURCE" rev-parse HEAD)" = "$PINNED_COMMIT"
+          test -f "$SOURCE/data/lua_names.h"
+      - name: Audit exact names and raw annotations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/scan_lua_evidence.py \
+            --game SV \
+            --source "$RUNNER_TEMP/sv-script-re/data/lua_names.h" \
+            --source "$RUNNER_TEMP/sv-script-re/decompiled" \
+            --source-version "SV-Script-RE 1f843bd2517c707fbb47491dad58856eaa2c2cc7 (3.0.1-era)" \
+            --output "$RUNNER_TEMP/lua-audit/SV-3.0.1-source-audit.json" \
+            --names-out "$RUNNER_TEMP/lua-audit/SV-3.0.1-exact-dictionary.txt"
+          python scripts/lua_hash.py verify
+      - name: Upload audit only (not copyrighted Lua sources)
+        uses: actions/upload-artifact@v4
+        with:
+          name: SV-3.0.1-lua-hash-audit
+          path: ${{ runner.temp }}/lua-audit/*
+          retention-days: 30

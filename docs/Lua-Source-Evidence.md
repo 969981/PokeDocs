@@ -53,3 +53,9 @@ python scripts/lua_hash.py verify
 ```
 
 参见 [[Hash-Evidence-Standards]]、[[Hash-Recovery-Workflow]]。
+
+## 自动化审计工作流
+
+[Audit historical SV Lua sources](https://github.com/969981/PokeDocs/actions/workflows/lua-source-audit.yml) 只拉取固定 SHA 的上游 `data/` 与 `decompiled/`，在 GitHub Actions 运行来源匹配、生成 JSON 与候选字典 artifact（30 天保存），**不上传或提交上游 Lua 原文件**。这是旧版 3.0.1 时代资料审计，不是 4.0.0 的原生验证。
+
+如果工作流未完成或报告无新候选，不要将未命名 Hash 视为已恢复。
