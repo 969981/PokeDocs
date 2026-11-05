@@ -1,0 +1,58 @@
+name: Build reproducible H2 Lua name overlay
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'scripts/build_lua_h2_overlay.py'
+      - '.github/workflows/lua-h2-overlay.yml'
+      - 'docs/evidence/hash-bruteforce-2026-11-05/*-matches.tsv'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  overlay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 3
+          filter: blob:none
+          sparse-checkout: |
+            scripts/build_lua_h2_overlay.py
+            SV/Hashlists/Lua
+            ZA/Hashlists/Lua
+            docs/evidence/hash-bruteforce-2026-11-05
+            docs/evidence/lua-join-2026-11-05/sv-native-class-queue.tsv
+            docs/evidence/lua-closure-2026-11-05/za-current-155.tsv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independently rebuild H2 overlay and refuse modifications of named originals
+        run: |
+          python scripts/build_lua_h2_overlay.py --repo .
+          python scripts/build_lua_h2_overlay.py --repo . --check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sv-za-H2-only-overlay-${{ github.run_number }}
+          path: |
+            docs/evidence/hash-bruteforce-2026-11-05/h2-candidate-overlay.tsv
+            docs/evidence/hash-bruteforce-2026-11-05/h2-overlay-summary.json
+          retention-days: 60
+      - name: Publish verified overlay on develop
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -f -- \
+            docs/evidence/hash-bruteforce-2026-11-05/h2-candidate-overlay.tsv \
+            docs/evidence/hash-bruteforce-2026-11-05/h2-overlay-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'analysis(lua): publish 28 H2 candidates as a separate unmodified-Hashlist overlay'
+          git fetch origin develop
+          git rebase origin/develop
+          git push origin HEAD:develop
