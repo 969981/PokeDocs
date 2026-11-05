@@ -43,6 +43,8 @@ class AssignmentReader(Reader):
         super().__init__(path)
         self.assignments = []
         self.total_candidate_windows = 0
+        self.target_unknown_f = set()
+        self.unknown_f_references = []
 
     def function(self, depth=0):
         if depth > 250:
@@ -100,9 +102,23 @@ class AssignmentReader(Reader):
         return this_proto
 
     def trace(self, offset, ncode, constants, children, nup, proto, proto_offset):
+        code = struct.unpack_from(f"<{ncode}I", self.data, offset)
+        if self.target_unknown_f:
+            for pc, word in enumerate(code):
+                op = opcode(word)
+                if op not in (14, 18):  # GETFIELD / SETFIELD
+                    continue
+                kidx = reg_c(word) if op == 14 else reg_b(word)
+                token = constants.get(kidx)
+                if token and FIELD.fullmatch(token) and int(token[1:], 16) in self.target_unknown_f:
+                    self.unknown_f_references.append({
+                        'file': self.file.name, 'proto': proto, 'pc': pc,
+                        'byte_offset': offset + 4 * pc,
+                        'opcode': 'GETFIELD' if op == 14 else 'SETFIELD',
+                        'function_hash': token.decode('ascii'), 'constant_index': kidx,
+                    })
         if ncode < len(OP_PATTERN):
             return
-        code = struct.unpack_from(f"<{ncode}I", self.data, offset)
         for pc in range(ncode - 7):
             words = code[pc:pc+8]
             if tuple(map(opcode, words)) != OP_PATTERN:
@@ -152,14 +168,22 @@ def main():
     p.add_argument('--repo', type=Path, help='PokeDocs root for unmapped F coverage')
     p.add_argument('--game', choices=('SV', 'ZA'), default='SV')
     p.add_argument('--assignments', type=Path, help='Complete CSV/TSV/GZ assignment evidence')
+    p.add_argument('--references', type=Path, help='Evidence of unmapped F GETFIELD/SETFIELD sites')
     args = p.parse_args()
     reports, records = [], []
     observed_f = set()
+    references = []
+    unknown_f = set()
+    if args.repo:
+        unknown, _ = load_hashlists(args.repo, args.game)
+        unknown_f = unknown['F']
     for path in args.files:
         reader = AssignmentReader(path)
+        reader.target_unknown_f = unknown_f
         report = reader.scan_assignments()
         reports.append(report)
         observed_f.update(reader.encountered['F'])
+        references.extend(reader.unknown_f_references)
         records.extend(reader.assignments)
         print(f"{path.name}: {report['assignments']} assignment definitions, "
               f"{report['distinct_class_hashes']} C, {report['distinct_function_hashes']} F")
@@ -172,14 +196,21 @@ def main():
                "global_unique_function_hashes": len({r['function_hash'] for r in records}),
                "global_unique_pairs": len({(r['class_hash'], r['function_hash']) for r in records})}
     if args.repo:
-        unknown, _ = load_hashlists(args.repo, args.game)
-        f_unknown = unknown['F']
+        f_unknown = unknown_f
         defined_f = {int(r['function_hash'][1:], 16) for r in records}
+        owner = {(r['file'], r['closure_proto']): r for r in records}
+        for ref in references:
+            caller = owner.get((ref['file'], ref['proto']))
+            ref['caller_class_hash'] = caller['class_hash'] if caller else ''
+            ref['caller_method_hash'] = caller['function_hash'] if caller else ''
         summary['unknown_F'] = {
             'unmapped_F_count': len(f_unknown),
             'found_as_any_bytecode_constant': len(f_unknown & observed_f),
             'found_as_strict_C_prototype_F_definition': len(f_unknown & defined_f),
             'not_found_as_bytecode_constant': len(f_unknown - observed_f),
+            'getfield_sites': sum(r['opcode'] == 'GETFIELD' for r in references),
+            'setfield_sites': sum(r['opcode'] == 'SETFIELD' for r in references),
+            'reference_sites_in_directly_bound_closures': sum(bool(r['caller_class_hash']) for r in references),
         }
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
@@ -191,6 +222,15 @@ def main():
             writer = csv.DictWriter(out, fieldnames=COLUMNS, delimiter='\t', lineterminator='\n')
             writer.writeheader()
             writer.writerows(records)
+    if args.references:
+        args.references.parent.mkdir(parents=True, exist_ok=True)
+        columns = ('file', 'proto', 'pc', 'byte_offset', 'opcode', 'function_hash',
+                   'constant_index', 'caller_class_hash', 'caller_method_hash')
+        opener = gzip.open if args.references.suffix == '.gz' else open
+        with opener(args.references, 'wt', encoding='utf-8', newline='') as out:
+            writer = csv.DictWriter(out, fieldnames=columns, delimiter='\t', lineterminator='\n')
+            writer.writeheader()
+            writer.writerows(references)
     print(json.dumps(summary, ensure_ascii=False))
 
 
