@@ -52,3 +52,16 @@ python -m unittest discover -s tests -v
 ~~~
 
 原始研究的 main.blua、main_dynamic.blua 不提交入仓库；此页仅提交精确候选和可追溯的行号证据。
+
+## 新增只读 C→F 方法簇调查器
+
+`scripts/rank_sv_c_namespace.py` 使用仓库现有 `trace_sv_lua_c2f.py` 所产生的完整直接赋值 TSV（或 TSV.gz）。对已命名 C 建立 `F → C` 倒排索引；对未知 C 统计共用的真实原型方法，按 `1 / 拥有该 F 的已命名类数` 加权，降低 `Setup`、`Update` 等通用键的干扰。输出原始 C Hash、方法个数、已命名 F 数量、最相近已命名类、共同 F Hash/名称以及其命名空间。没有可核对的共同键时保持空候选。
+
+运行命令：
+
+~~~powershell
+python scripts/trace_sv_lua_c2f.py "D:\SV\main.blua" "D:\SV\main_dynamic.blua" --repo . --game SV --assignments c2f.tsv.gz
+python scripts/rank_sv_c_namespace.py --repo . --assignments c2f.tsv.gz --output sv-c-namespace-priority.json --min-shared 2 --top-k 3
+~~~
+
+此工具不会尝试自动把命名空间写入空白 C：相似的 F 方法集合仅是调查线索；未接入 C→S 静态方法和全局注册表的直接证据时不会造边。脚本无原始 BLUA 或已导出的 TSV 时无法在 GitHub 仓库单独生成真实排名。

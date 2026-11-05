@@ -30,3 +30,14 @@ Exact path bytes are required. Do not silently lowercase or normalize slashes. S
 ## Cross-repository evidence merge verification (2026-11-05)
 
 `python scripts/verify_sv_resources_import.py` validates 611 pinned ZA name/hash candidates, 4 SV F callbacks, their original source line numbers, independent evidence TSV, and all currently named SV/ZA Lua hashes without writing to hashlists. The exact pinned sources and provenance are under [`../docs/evidence/sv-resources/`](../docs/evidence/sv-resources/). See [`../docs/SV-Resources-Research-Sync-2026-11-05.md`](../docs/SV-Resources-Research-Sync-2026-11-05.md).
+
+## SV unknown-C method-signature investigation
+
+Export the proven direct assignment relationships from the original complete Lua 5.4 files, then rank unknown class hashes by uncommon method keys shared with already named classes:
+
+~~~powershell
+python scripts/trace_sv_lua_c2f.py "D:\SV\main.blua" "D:\SV\main_dynamic.blua" --repo . --game SV --assignments "c2f.tsv.gz"
+python scripts/rank_sv_c_namespace.py --repo . --assignments "c2f.tsv.gz" --output "docs/local-sv-c-rank.json" --min-shared 2 --top-k 3
+~~~
+
+The ranking is **not** a name recovery, C-to-S proof, inheritance proof, or dynamic-call proof. Generated local report and original Lua files need not be committed. See [../docs/Lua-Next-Phase-2026-11-05.md](../docs/Lua-Next-Phase-2026-11-05.md).
