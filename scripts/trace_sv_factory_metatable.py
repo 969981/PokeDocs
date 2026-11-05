@@ -163,6 +163,33 @@ def run(main, parser, registrations, static, unknown):
     )
     if len(selected) != 95 or len({r["class_hash"] for r in selected}) != 95:
         raise ValueError("Unknown-C dual-structure baseline is not 95")
+    # Explicit Haxe metadata write: _ENV[C].__name__ = C.
+    # Same root Upvalue 0 and exact C bytes on both key and stored value.
+    wanted = {row["class_hash"].encode(): row["class_hash"] for row in selected}
+    name_sites = {row["class_hash"]: [] for row in selected}
+    for name_pc, ins in enumerate(code):
+        if ins[0] != "LOADK" or ins[5] >= len(const) or const[ins[5]] not in wanted:
+            continue
+        if name_pc < 4 or name_pc + 1 >= len(code):
+            continue
+        window = code[name_pc-4:name_pc+2]
+        if [x[0] for x in window] != [
+            "GETUPVAL", "LOADK", "GETTABLE", "LOADK", "LOADK", "SETTABLE"
+        ]:
+            continue
+        a = window[0][1]
+        cls_bytes = const[window[4][5]]
+        if (window[0][2] == 0 and window[1][1] == a+1 and
+                const[window[1][5]] == cls_bytes and
+                window[2][1:4] == (a, a, a+1) and
+                window[3][1] == a+1 and
+                const[window[3][5]] == b"__name__" and
+                window[4][1] == a+2 and
+                window[5][1:4] == (a, a+1, a+2)):
+            name_sites[wanted[cls_bytes]].append(name_pc)
+    bad_names = {key: pcs for key, pcs in name_sites.items() if len(pcs) != 1}
+    if bad_names:
+        raise ValueError(f"Expected one exact _ENV[C].__name__=C per class: {bad_names}")
     root_pcs = [int(r["root_pc"]) for r in selected]
     hazards = possible_writes_to_R15(code, 50, max(root_pcs) + 5)
     if hazards:
@@ -183,6 +210,9 @@ def run(main, parser, registrations, static, unknown):
             "class_hash": row["class_hash"], "root_pc": pc,
             "factory_register": 15, "factory_proto_id": factory["id"],
             "root_upvalue_env_index": 0, "global_slot_proven": True,
+            "class_name_hash_assignment_pc": name_sites[row["class_hash"]][0],
+            "class_name_field": "__name__",
+            "class_name_value_is_C_hash_token": True,
             "runtime_instance_identity_confirmed": False,
         })
     report = {
@@ -190,6 +220,8 @@ def run(main, parser, registrations, static, unknown):
         "root_prototype_instruction_count": len(code), **proof,
         "unknown_dual_C": len(details),
         "registration_uses_shared_factory": len(details),
+        "class_name_hash_metadata_assignments_verified": sum(len(v) for v in name_sites.values()),
+        "native_readable_class_names_recovered_from_name_field": 0,
         "factory_register_R15_maywrite_sites_before_last_registration": len(hazards),
         "native_original_names_recovered": 0,
         "runtime_instance_identity_confirmed": 0,
