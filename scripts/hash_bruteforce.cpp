@@ -76,6 +76,28 @@ std::vector<Entry> loadAll(const string& repo) {
     }
     return rows;
 }
+void addH2Seeds(std::vector<Entry>& rows,const std::vector<string>& seedFiles) {
+    for(const auto& path:seedFiles){
+        std::ifstream f(path);
+        if(!f)throw std::runtime_error("Missing prior H2 evidence: "+path);
+        string line;
+        if(!std::getline(f,line) || !starts(line,"game\tkind\tline\thash\tcandidate\t"))
+            throw std::runtime_error("Invalid H2 TSV header: "+path);
+        while(std::getline(f,line)){
+            if(trim(line).empty())continue;
+            std::vector<string> v;
+            std::istringstream s(line);
+            string field;
+            while(std::getline(s,field,'\t'))v.push_back(field);
+            if(v.size()<7 || (v[0]!="SV"&&v[0]!="ZA"))
+                throw std::runtime_error("Bad prior H2 candidate row");
+            U64 h=std::stoull(v[3].substr(2),nullptr,16);
+            if(!starts(v[3],"0x")||hashName(v[4])!=h)
+                throw std::runtime_error("Prior H2 candidate failed independent exact hash verification: "+v[4]);
+            rows.push_back({v[0],v[1],v[4],h,0});
+        }
+    }
+}
 struct Search {
     std::unordered_map<U64,std::vector<Entry>> targets;
     std::map<std::pair<U64,string>,Hit> hits;
@@ -168,7 +190,7 @@ std::vector<Namespace> namespaces(const std::vector<Entry>& rows) {
     for(const auto& [name,source]:ns)ret.push_back({name,source,hashName(name)});
     return ret;
 }
-void svSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pair<string,std::uint64_t>>& phases) {
+void svSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pair<string,std::uint64_t>>& phases,bool extended=false) {
     auto nss=namespaces(rows);
     std::map<string,Leaf> original;
     for(const auto& e:rows)if(e.kind=="c"&&!e.name.empty()){
@@ -212,6 +234,52 @@ void svSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pai
         }
     }
     doPhase("namespace_x_class_prefix_morph",prep);
+    if(!extended || search.stopped)return;
+    // Adjacent only: both namespace and stem must be observed together in an
+    // existing verified class name or explicitly labeled H2 seed. Restricting
+    // grammar expansion locally avoids blind multi-billion global products.
+    std::map<string,std::map<string,string>> siblingStems;
+    const std::vector<string> stripSuffix={
+        "Manager","Controller","Model","Component","System","Handler",
+        "Data","State","Info","Table","Accessor","Params","Param","View",
+        "Util","Factory","Behavior","Action","Event","Scene","Context",
+        "Object","Type","Command","Script","Sequence","UI","Func","Impl"
+    };
+    for(const auto& e:rows)if(e.kind=="c"&&!e.name.empty()){
+        auto dot=e.name.rfind('.');
+        if(dot==string::npos)continue;
+        string ns=e.name.substr(0,dot+1),leaf=e.name.substr(dot+1);
+        if(!ident(leaf))continue;
+        siblingStems[ns].try_emplace(leaf,e.name);
+        for(const auto& suffix:stripSuffix)
+            if(ends(leaf,suffix)&&leaf.size()>suffix.size()+3)
+                siblingStems[ns].try_emplace(leaf.substr(0,leaf.size()-suffix.size()),e.name);
+    }
+    const std::vector<string> pref={
+        "I","Base","Common","Default","UI","Event","Field","Battle","Poke",
+        "Pokemon","Scene","Game","Data","Sub","General","System","Script",
+        "Actor","Player","Network","Npc","Object","Main","Ctrl","State",
+        "Command","Action","Dan","Manager"
+    };
+    const std::vector<string> suff={
+        "Manager","Controller","Model","Component","System","Handler",
+        "Service","Data","State","Info","Table","Accessor","Params","Param",
+        "View","Util","Factory","Behavior","Action","Event","Scene","Context",
+        "Base","Impl","Object","Type","Command","Script","Sequence","UI",
+        "Func","Status","Item","Entry","Panel","Node","Layout","DataSource"
+    };
+    U64 before=search.attempts;
+    for(const auto& [ns,stems]:siblingStems) {
+        Namespace parent{ns,"native-verified-or-H2 namespace-local sibling",hashName(ns)};
+        for(const auto& [stem,source]:stems)if(ident(stem)&&stem.size()<85)
+          for(const auto& pre:pref)
+            for(const auto& suf:suff) {
+                Leaf leaf{pre+stem+suf,source,"namespace_local_prefix_stem_suffix"};
+                if(!search.offerPrefixed(parent,leaf))goto end_local;
+            }
+    }
+    end_local:phases.push_back({"namespace_local_prefix_stem_suffix",search.attempts-before});
+    std::cout<<"phase namespace_local_prefix_stem_suffix candidates="<<(search.attempts-before)<<" hits="<<search.hits.size()<<"\n";
 }
 std::vector<string> camelWords(const string& s) {
     std::vector<string> out;
@@ -231,7 +299,7 @@ std::vector<string> camelWords(const string& s) {
     if(!current.empty())out.push_back(current);
     return out;
 }
-void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pair<string,std::uint64_t>>& phases) {
+void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pair<string,std::uint64_t>>& phases,bool extended=false) {
     const std::vector<string> verbs={
         "Get","Set","Is","Has","Can","Create","Destroy","Delete","Remove","Add",
         "Start","Stop","Begin","End","Open","Close","Load","Unload","Save","Update",
@@ -322,11 +390,27 @@ void zaSearch(Search& search,const std::vector<Entry>& rows,std::vector<std::pai
             if(!check(verb+stem+tail,"verb_plus_stem_plus_domain_suffix",source))goto end_tails;
     }
     end_tails:phases.push_back({"verb_x_stem_x_domain_suffix",search.attempts-start});
+    if(!extended || search.stopped)return;
+    // Additional 3-token combinations from the more frequent 150 native
+    // words, excluding 80^3 already evaluated in the base pass.
+    start=search.attempts;
+    for(size_t ia=0;ia<std::min<size_t>(150,ws.size());++ia)
+      for(size_t ib=0;ib<std::min<size_t>(150,ws.size());++ib)
+        for(size_t ic=0;ic<std::min<size_t>(150,ws.size());++ic) {
+          if(ia<80&&ib<80&&ic<80)continue;
+          string noun=ws[ia]+ws[ib]+ws[ic];
+          if(noun.size()>80)continue;
+          for(const auto& v:verbs)
+            if(!check(v+noun,"verb_plus_three_extended_native_words",ws[ia]+"+"+ws[ib]+"+"+ws[ic]))goto end_extended;
+        }
+    end_extended:phases.push_back({"verb_x_three_extended_native_words",search.attempts-start});
 }
 int main(int argc,char** argv) {
     try {
         string repo=".",mode="",out="hash-bruteforce";
         U64 budget=300000000;
+        bool extended=false;
+        std::vector<string> seedFiles;
         for(int i=1;i<argc;i++){
             string arg=argv[i];
             auto take=[&](){if(i+1>=argc)throw std::runtime_error("Missing value after "+arg);return string(argv[++i]);};
@@ -334,15 +418,18 @@ int main(int argc,char** argv) {
             else if(arg=="--mode")mode=take();
             else if(arg=="--out")out=take();
             else if(arg=="--budget")budget=std::stoull(take());
+            else if(arg=="--seed")seedFiles.push_back(take());
+            else if(arg=="--extended")extended=true;
             else throw std::runtime_error("Unknown argument: "+arg);
         }
         if((mode!="sv"&&mode!="za")||budget<1||budget>2000000000ULL)
             throw std::runtime_error("Use --mode sv|za and --budget between 1 and 2000000000");
         auto rows=loadAll(repo);
+        addH2Seeds(rows,seedFiles);
         Search search(rows,mode,budget);
         std::vector<std::pair<string,U64>> phases;
-        if(mode=="sv")svSearch(search,rows,phases);
-        else zaSearch(search,rows,phases);
+        if(mode=="sv")svSearch(search,rows,phases,extended);
+        else zaSearch(search,rows,phases,extended);
         search.report(out,phases);
         return 0;
     } catch(const std::exception& ex) {
