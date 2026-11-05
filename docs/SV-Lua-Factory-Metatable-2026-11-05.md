@@ -60,6 +60,12 @@ _ENV[C_HASH].__name__ = C_HASH
 2. 对 Proto 19 的 `setmetatable` 返回值，必要时在游戏运行时采样对象引用，验证 `_ENV[C]` 在注册后和方法赋值时是否仍指向同一对象。
 3. 对原名须找到独立 UTF-8 命名、反射/注册字符串或其他明确来源，不因 `__name__ = C_HASH` 自动升级 H3。
 
+## 持久证据与自动化
+
+- [原生 SHA 固定的简要 JSON](evidence/sv-factory-2026-11-05.json)；更完整的 95 类逐 PC 表由脚本本地输出。
+- [GitHub Actions 42027098509](https://github.com/969981/PokeDocs/actions/runs/42027098509)：**源码语法和合成指令测试通过**，不包含原始游戏文件，也不冒充完整原生重跑。
+- ZA 的相邻研究：[ZA 调用者闭包与接收者原生证据](ZA-Lua-Closure-Receiver-2026-11-05.md)。
+
 ## 本地复验
 
 ~~~powershell
