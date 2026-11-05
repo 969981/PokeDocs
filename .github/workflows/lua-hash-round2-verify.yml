@@ -1,0 +1,58 @@
+name: Independent seeded Lua Hash round two validation
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'scripts/verify_hash_bruteforce_round2.py'
+      - '.github/workflows/lua-hash-round2-verify.yml'
+      - 'docs/evidence/hash-bruteforce-2026-11-05/*-round2-matches.tsv'
+      - 'docs/evidence/hash-bruteforce-2026-11-05/*-round2-summary.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify-round2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 3
+          filter: blob:none
+          sparse-checkout: |
+            scripts/verify_hash_bruteforce.py
+            scripts/verify_hash_bruteforce_round2.py
+            SV/Hashlists/Lua
+            ZA/Hashlists/Lua
+            docs/evidence/hash-bruteforce-2026-11-05
+            docs/evidence/lua-join-2026-11-05/sv-native-class-queue.tsv
+            docs/evidence/lua-closure-2026-11-05/za-current-155.tsv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independent SHA256, full FNV and original blank-line audit
+        run: |
+          python scripts/verify_hash_bruteforce_round2.py \
+            --repo . \
+            --evidence docs/evidence/hash-bruteforce-2026-11-05 \
+            --out docs/evidence/hash-bruteforce-2026-11-05/round2-audit-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: independent-lua-H2-seeded-audit-${{ github.run_number }}
+          path: docs/evidence/hash-bruteforce-2026-11-05/round2-audit-summary.json
+          retention-days: 60
+      - name: Publish audited H2-only round-two evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -f docs/evidence/hash-bruteforce-2026-11-05/round2-audit-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'analysis(lua): independently verify 27 H2 candidates from two rounds'
+          git fetch origin develop
+          git rebase origin/develop
+          git push origin HEAD:develop
