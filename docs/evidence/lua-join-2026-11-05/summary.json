@@ -1,0 +1,34 @@
+{
+  "SV": {
+    "current_unknown_C": 1334,
+    "direct_C_to_F": 1047,
+    "old_no_direct_299": 299,
+    "current_no_direct_F": 287,
+    "statuses": {
+      "DIRECT_C_TO_F": 1047,
+      "GLOBAL_CLASS_REG": 110,
+      "STATIC_C_TO_S": 6,
+      "STATIC_C_TO_S_PLUS_GLOBAL": 95,
+      "NATIVE_NESTED_REFERENCE_ONLY": 16,
+      "NOT_PRESENT_AS_C_HEX_STRING_IN_MAIN_OR_DYNAMIC": 52,
+      "NATIVE_ENV_CLASS_TABLE_ASSIGNMENT": 7,
+      "NATIVE_ROOT_REFERENCE_NO_GLOBAL_ASSIGNMENT": 1
+    },
+    "native_C_to_S_edges_in_old_299": 281,
+    "native_global_registration_edges_in_old_299": 213
+  },
+  "ZA": {
+    "current_unknown_S": 114,
+    "current_unknown_F": 41,
+    "haxe_references_to_unknown_S": 256,
+    "S_with_references": 114,
+    "F_with_references": 0,
+    "native_ZA_Lua_opcode_verified": false
+  },
+  "source": {
+    "SV_Resources_commit": "4619e7da6d2d9c6faab4eb0d5f3a2d6c8ef0e046",
+    "ZA_Resources_commit": "30bd7b29277844bfe41c5efe54739471bed12766"
+  },
+  "evidence_limit": "SV direct-F class membership comes from old 299 no-direct-F native set complement. Per-F original PC not stored here. ZA Haxe references are reconstructed, not native original names.",
+  "original_names_recovered_by_this_join": 0
+}
