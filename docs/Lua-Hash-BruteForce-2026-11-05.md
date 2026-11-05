@@ -5,7 +5,7 @@ date: 2026-11-05
 status: EXACT_HASH_H2_CANDIDATES_NATIVE_ORIGINAL_UNCONFIRMED
 ---
 
-# SV / ZA Lua：3.09 亿候选计算，新命中 24 条完整 64 位 Hash
+# SV / ZA Lua：三轮 1,167,121,655 次计算，累计 28 个 H2 精确 Hash 候选
 
 > [!IMPORTANT]
 > 这是一轮**真实 GitHub Actions C++ 枚举 + Python 独立 Hash 复算**，不是任意字符串的通用 2^64 逆向求解。已命中的都是**原先空白行的 H2 精确名称候选**；没有游戏原生 UTF-8 原名证明时不得宣称 H3。此轮未修改任何正式 Hashlist，未知基线仍为 SV C **1,334**、ZA S **114**、ZA F **41**。
@@ -110,3 +110,45 @@ status: EXACT_HASH_H2_CANDIDATES_NATIVE_ORIGINAL_UNCONFIRMED
 - [ZA 第二轮统计](evidence/hash-bruteforce-2026-11-05/za-round2-summary.json) / [逐行结果](evidence/hash-bruteforce-2026-11-05/za-round2-matches.tsv)
 
 后续已不建议继续扩大第一轮同类 namespace×suffix 枚举：SV 此次未新增匹配。应转向 **ZA megarematch 事件的第三方 Haxe 上下文词汇** 与 SV 结构化类语义的原生来源。全部正式未知基线仍未修改。
+
+
+## 6. 第三轮：ZA Mega Rematch 事件上下文定向算尽（已成功）
+
+使用 ZA_Resources 已固定的第三方 Haxe 重建代码 `Ev_sys_megarematch` / `Ev_sys_megarematch_lose` / `Ev_sys_megarematch_win` 中实际调用、选择菜单、消息和 `spn_boss` 关联关系，为**仅剩五个四包未收录的 S Hash**建立**明确限定的上下文词汇文法**。
+
+- 实现：[高性能前缀状态 FNV C++ 搜索](../scripts/brute_za_megarematch_context.cpp)，每个前缀先计算一次，后续逐候选只追加字段词根和后缀字节；**不重复哈希完整字符串，也不引入通用 2^64 穷举**。
+- [成功的 GitHub Actions 42032644286](https://github.com/969981/PokeDocs/actions/runs/42032644286)，C++ 全量运行并由独立 Python 用现有 S Hashlist 的原始空白行重新计算全部结果。
+- 本轮实际计算 **317,296,440** 个候选，指定语法完全覆盖、未触及 400,000,000 预算。
+- 五个目标 Hash 中**精确命中 3 个**（前两轮已有的两条 + 本轮新一条）。新增 `S34AD86B7E5BB1526 = Get_BossBattleID`，原始 S 第 164 行。
+
+| 以前缺少原生 Lua 常量的 S 行 | Hash | 当前 H2 精确候选 | 2.0.2 原生常量仍缺失？ |
+| ---: | --- | --- | --- |
+| 23 | `062729EC443620C2` | `Get_BossName` | 是 |
+| 72 | `1463948047021356` | `Get_BossNameIndex` | 是 |
+| 164 | `34AD86B7E5BB1526` | `Get_BossBattleID` | 是 |
+| 403 | `81E0610BF8B9337C` | **仍未知**，Haxe 重建为消息标签数组 | 是 |
+| 685 | `D0F61B3481E43C08` | **仍未知**，Haxe 重建为 Boss SPN 数组 | 是 |
+
+上述 Haxe 中数组用途只帮助构造字符串候选，**不证明原版变量名**。尤其后三项在当前四份 2.0.2 BLUA 常量池中仍未找到字面 Hash，不能把 “H2 精确候选” 写成“原生 Lua 调用链原名已恢复”。前面三项名字虽然语义相互支撑，但还没有 H3 身份证据。
+
+- [第三轮匹配结果](evidence/hash-bruteforce-2026-11-05/za-megarematch-matches.tsv)
+- [原生 CI 完整预算统计](evidence/hash-bruteforce-2026-11-05/za-megarematch-summary.json)
+
+三轮累计 **1,167,121,655** 次候选计算（含重复）；去重 **28 条 H2**，按游戏及类型：**SV C 12、ZA S 10、ZA F 6**。
+
+## 7. 供工具使用的安全 Overlay（不覆盖正式 Hashlist）
+
+已生成唯一的衍生映射：[H2 候选 Overlay TSV](evidence/hash-bruteforce-2026-11-05/h2-candidate-overlay.tsv) / [来源、类别、内容哈希审计](evidence/hash-bruteforce-2026-11-05/h2-overlay-summary.json)。
+
+- 工具：[build_lua_h2_overlay.py](../scripts/build_lua_h2_overlay.py)，[验证通过的 GitHub Actions 42033011221](https://github.com/969981/PokeDocs/actions/runs/42033011221)。
+- 对五份源 TSV 再次计算完整 FNV64，严格校验 28 条原始空白行仍存在、候选冲突为零、H2/H3 字段未混淆。输出按类别和 Hash 确定性排序，并附输入 SHA-256。
+- 为方便解析，字段包含 `game`、`kind`、`hash`、`lua_token`、`candidate_name`、`evidence_grade`、`native_structure`、`native_opcode_refs`、`matching_stages` 等；所有记录 `native_original_name_confirmed=NO`、`hashlist_updated=NO`。
+- ZA 28 个 H2 中未出现于原生四包 Opcode 索引的恰好是 `Get_BossName`、`Get_BossNameIndex` 和 `Get_BossBattleID` 对应的三个 S 哈希；其余 ZA 13 个匹配有原生 Opcode 证据，但**这些证据只支持哈希使用，不会自动证明名称来自游戏**。
+
+当前正式未知行数仍为 **SV C 1,334、ZA S 114、ZA F 41**。如果未来项目明确决定采纳 H2 为“增强候选”，应当对照 Overlay 做**独立、可撤销的二次映射**，而不是抹掉原始 Hashlist 的未知状态。
+
+## 8. 后续目标
+
+- **ZA：** 再研究剩余两个数组 Hash 的**命名来源**，不再沿已经穷举的 317M 事件文法无限重复。优先比较更多游戏版本、静态表实际构造和编译前的标识符来源。
+- **ZA：** 本轮 H2 中 `Wait_CompleteTurn` 有原生 Opcode 744 条，`ShowMessageNpcEvent` 有 78 条；可以沿已建立的原生 CALL 和 Prototype 归属先处理这两条的真实消费者与接收表身份。
+- **SV：** 本轮 12 个 C 中有 4 个已取得 C→S + 全局注册双证据；围绕已验证工厂 `R15` 与 `__name__` 继续证明动态对象赋值与最终类型，而不是仅增加不受约束的 C 类名枚举。
