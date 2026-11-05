@@ -58,5 +58,21 @@ python scripts/audit_sv_dual_global_slot.py --main "D:\SV\main.blua" --parser "D
 ~~~
 
 See [../docs/Lua-Proto-Owner-Join-2026-11-05.md](../docs/Lua-Proto-Owner-Join-2026-11-05.md) for counts and limitations.
+ 
+## SV / ZA high-throughput C++ brute-force name candidates
+
+A bounded source-derived search (not generic 2^64 brute force) is implemented by [hash_bruteforce.cpp](hash_bruteforce.cpp). It verifies every pre-existing named hash, tests original namespace/class and Haxe nested `_Impl_` grammars, then ZA verb/CamelCase sequences. The source-guided H2 candidates are never applied automatically.
+
+~~~bash
+g++ -std=c++20 -O3 -DNDEBUG -pthread scripts/hash_bruteforce.cpp -o hash_bruteforce
+./hash_bruteforce --repo . --mode sv --budget 300000000 --out sv
+./hash_bruteforce --repo . --mode za --budget 300000000 --out za
+python scripts/verify_hash_bruteforce.py --repo . --input-dir docs/evidence/hash-bruteforce-2026-11-05
+~~~
+
+For extended round two, add `--extended --budget 650000000` and both `--seed docs/evidence/hash-bruteforce-2026-11-05/sv-matches.tsv --seed docs/evidence/hash-bruteforce-2026-11-05/za-matches.tsv` to each game call. Seed files are *strictly rehashed* and act only as documented H2 grammar inputs, not native source strings. GitHub Actions run the CPU-intensive calculations and publish TSV/JSON to `docs/evidence/hash-bruteforce-2026-11-05/`.
+
+See [the November 5th research audit](../docs/Lua-Hash-BruteForce-2026-11-05.md) and [the independent H2 validation](../docs/evidence/hash-bruteforce-2026-11-05/audit-summary.json). Do not confuse full-hash matches with original-name or receiver-type evidence.
+
 
 The follow-up [trace_sv_factory_metatable.py](trace_sv_factory_metatable.py) proves the shared Lua table factory (root R15 / child Proto 19), its captured metatable R13, and exactly 95 `_ENV[C].__name__ = C` native metadata writes using the original SHA-pinned `main.blua`. It does **not** prove dynamic instance identity or readable class names. For local reproduction, use the same `--main`, `--parser`, `--registrations`, `--static` inputs, and pass the C hashlist as `--unknown` instead of `--hashlist`; output is supplied with `--out`. See [SV factory evidence](../docs/SV-Lua-Factory-Metatable-2026-11-05.md).
