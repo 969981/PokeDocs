@@ -612,7 +612,7 @@
 0x31758C05E217B71F main.mystery_gift.MysteryGiftViewConfirmPower
 0x319260C5EFC9D4A1 
 0x31A570CBD6F7A38F main.battle.PartyDesc
-0x31AF09FF3A7DA909 
+0x31AF09FF3A7DA909 main.event.general.battle_talk.BattleTalk_mizu_leader_01
 0x31B0A0E8666EBA1E main.field.behaviour.EventCamera
 0x31B560156B64C9C9 main.ui.ymap.minimap.YMapMiniMapView
 0x31B9D37565F5742F 
@@ -687,7 +687,7 @@
 0x37E1E82B8B645845 
 0x37F7F2AA6E159E70 
 0x38031D3FA506665C main.ui.common.UIOpenLimit
-0x381068AE41415EC9 
+0x381068AE41415EC9 main.event.general.battle_talk.BattleTalk_ghost_leader_01
 0x381B6731FAC78108 main.ui.box.search.view.BoxSearchInitialJpnView
 0x3849D6AE07FDE2B7 main.event.debug.DebugNakayamaHiroki
 0x384CCABAF1EE53D7 
@@ -822,7 +822,7 @@
 0x4277336B5F23794A 
 0x428292E43AAB2C65 
 0x4290ED6F49F5DD0F main.mystery_gift.MysteryGiftUtil
-0x42C5B56005284098 
+0x42C5B56005284098 main.event.general.battle_talk.BattleTalk_koori_leader_01
 0x42D11EE6DC41D8CE main.system.game_event.functor.GameEventFunctor
 0x42D1CDB112422850 main.field.behaviour.out_of_range.FieldOutOfRangeManager
 0x42ED798254D1CE4C main.system.game_event.GameEventDebugFreeCamera
@@ -1427,7 +1427,7 @@
 0x6EBC93FE3776DF15 
 0x6EF28CA67790248B main.ui.dressup.dress.view.style.DressupUIStyleSequence
 0x6EFBB0171CDB0DF7 
-0x6F0ECD2A591B2D89 
+0x6F0ECD2A591B2D89 main.event.general.battle_talk.BattleTalk_denki_leader_01
 0x6F1822A717AC599D main.field.contents.ContentsManager
 0x6F20E9107BF48269 main.field.behaviour.scenario.main.champion.gym.mushi.GymMushiPokeState
 0x6F248004882A49B8 main.env.weather.happening.WeatherHappeningManager
@@ -2035,7 +2035,7 @@
 0x9D0EA3ECE93115FA main.ui.hud_info.SceneHudInfoManager
 0x9D1B958B01873D15 main.battle.ui.BattleUiGauge
 0x9D1EEAF03ED64F86 main.pokepicnic.ui.PicnicMainUiController
-0x9D21F8257B3AE8D6 
+0x9D21F8257B3AE8D6 main.event.general.battle_talk.BattleTalk_mushi_leader_01
 0x9D3107250A5367E1 main.field.behaviour.module.base.IBehaviorModule
 0x9D8C5D0363DC0E88 
 0x9D96138EAA13A5D9 main.network.receiver.BattleNetworkNetReceiver
@@ -2323,7 +2323,7 @@
 0xB78491A17D6C532A main.ui.shop.purchase.view.ShopUIPurchaseMultiResultSequence
 0xB793E9B6643C24DA main.ui.bag.bag_ui_state_machine.BagUIUseCombineItem
 0xB7B849E7C0AC03DD 
-0xB7EEB53C72FB3B6D 
+0xB7EEB53C72FB3B6D main.event.general.battle_talk.BattleTalk_normal_leader_01
 0xB81A7F5D0CBF5CB0 dll_danbattle.ui.PartnerUIView
 0xB82B20AC08D290B0 
 0xB87925D1C1B918F9 dll_util.StrUtil
@@ -3154,7 +3154,7 @@
 0xF422DF7F1676E9A7 main.ui.common_net_load.CommonNetLoadView
 0xF42412A816EAF636 main.ui.common_report.CommonReportView
 0xF4336E2049EB153D main.field.behaviour.DanPokemonFaintedMessage
-0xF43AD18CB9EB4E5D 
+0xF43AD18CB9EB4E5D main.event.general.battle_talk.BattleTalk_esper_leader_01
 0xF446125AFC320042 main.ui.net_btl.database.NetBattleRuleData
 0xF45A66B23ECB92F1 main.npc_management.NpcSwitcherDataExpression
 0xF47162E578661B83 main.event.general.gym.base.Gym_mushi_goal_event
@@ -3262,7 +3262,7 @@
 0xFD1CCDD7948CBFE6 
 0xFD3A32F84D0BD550 main.ajito.ui.counter.KOUIView
 0xFD74BEB2381EA80F main.playables.free_move.trig.LadderEventTrigger
-0xFD9B049511E682DA 
+0xFD9B049511E682DA main.ui.hud_info.HudInfoPlayer
 0xFDA849ADBE85A43A main.battle.director.BattleEndGem
 0xFDDC2297F94B0EBC 
 0xFDE5B8FCCB68CEF2 
