@@ -37,6 +37,7 @@ jobs:
           git -C "$SOURCE" checkout --detach FETCH_HEAD
           test "$(git -C "$SOURCE" rev-parse HEAD)" = "$PINNED_COMMIT"
           test -f "$SOURCE/data/lua_names.h"
+          test -f "$SOURCE/main.dumped.lua"
       - name: Audit exact names and raw annotations
         shell: bash
         run: |
@@ -45,6 +46,7 @@ jobs:
             --game SV \
             --source "$RUNNER_TEMP/sv-script-re/data/lua_names.h" \
             --source "$RUNNER_TEMP/sv-script-re/decompiled" \
+            --source "$RUNNER_TEMP/sv-script-re/main.dumped.lua" \
             --source-version "SV-Script-RE 1f843bd2517c707fbb47491dad58856eaa2c2cc7 (3.0.1-era)" \
             --output "$RUNNER_TEMP/lua-audit/SV-3.0.1-source-audit.json" \
             --names-out "$RUNNER_TEMP/lua-audit/SV-3.0.1-exact-dictionary.txt"
