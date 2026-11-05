@@ -49,9 +49,9 @@ The ranking is **not** a name recovery, C-to-S proof, inheritance proof, or dyna
 
 ## SV 95 unknown-C native _ENV slot audit
 
-The read-only [audit_sv_dual_global_slot.py](audit_sv_dual_global_slot.py) validates the 95 dual-structure C hashes against the original SV 4.0.0 \`main.blua\` (pinned SHA-256), including 95 registration writes, 252 S closure assignments, root upvalue 0, and closure child Prototype IDs. It never changes Lua Hashlists or claims runtime object identity.
+The read-only [audit_sv_dual_global_slot.py](audit_sv_dual_global_slot.py) validates the 95 dual-structure C hashes against the original SV 4.0.0 `main.blua` (pinned SHA-256), including 95 registration writes, 252 S closure assignments, root upvalue 0, and closure child Prototype IDs. It never changes Lua Hashlists or claims runtime object identity.
 
-The original Lua file and the \`Analyze-SV-Lua54.py\` parser are local inputs; do not check game binaries into the repository.
+The original Lua file and the `Analyze-SV-Lua54.py` parser are local inputs; do not check game binaries into the repository.
 
 ~~~powershell
 python scripts/audit_sv_dual_global_slot.py --main "D:\SV\main.blua" --parser "D:\SV\Analyze-SV-Lua54.py" --static "D:\SV\followup-c-static-s-closures.tsv" --registrations "D:\SV\followup-c-global-registrations.tsv" --hashlist SV/Hashlists/Lua/lua_c_hashes.txt --out "D:\SV\audits"
