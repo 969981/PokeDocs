@@ -1,0 +1,20 @@
+{
+ "mode":"sv",
+ "hash_algorithm":"FNV-1a 64-bit exact UTF-8 bytes",
+ "offset_basis":"0xCBF29CE484222645",
+ "target_unknown_hashes":1334,
+ "attempted_candidates":152216932,
+ "max_candidates":650000000,
+ "budget_exhausted":false,
+ "exact_hash_matching_candidates":12,
+ "native_original_names_confirmed":0,
+ "hashlist_updates":0,
+ "phases":{
+  "namespace_x_verified_leaf":2135550,
+  "namespace_x_class_suffix_morph":84809280,
+  "namespace_x_haxe_nested_class":7950870,
+  "namespace_x_class_prefix_morph":53005800,
+  "namespace_local_prefix_stem_suffix":4315432
+ },
+ "limitations":"H2 dictionary-grammar exact hash only; source string identity and runtime type unproven. Missing candidates are not absent symbols."
+}
