@@ -89,6 +89,8 @@ class AssignmentReader(Reader):
             children.append(child)
         self.skip(self.integer())
         for _ in range(self.integer()):
+            self.integer(); self.integer()
+        for _ in range(self.integer()):
             self.lua_string(); self.integer(); self.integer()
         for _ in range(self.integer()):
             self.lua_string()
