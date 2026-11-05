@@ -69,7 +69,7 @@ python -m unittest discover -s tests -v
 python scripts/lua_hash.py verify
 ```
 
-第一个 TSV.gz 会记录所有 23,727 条：文件、Proto ID、类 Hash、函数 Hash、Closure Proto ID、PC、物理字节偏移、K 索引和寄存器；**第二个 TSV.gz 记录 16 个未知 F 的 33 处 `GETFIELD`/`SETFIELD` 证据（Proto、PC、物理偏移、被引用 Hash、经闭包归属确认的所在方法），不会推断目标函数身份。**源文件本身不会提交到 GitHub****，只输出可核查的派生证据。
+第一个 TSV.gz 会记录所有 23,727 条：文件、Proto ID、类 Hash、函数 Hash、Closure Proto ID、PC、物理字节偏移、K 索引和寄存器。第二个 TSV.gz 记录 16 个未知 F 的 33 处 `GETFIELD`/`SETFIELD` 证据（Proto、PC、物理偏移、被引用 Hash、经闭包归属确认的所在方法），不会推断目标函数身份。**源文件本身不会提交到 GitHub**，只输出可核查的派生证据。
 
 技术限制：本轮是一个严谨的、可复核的 **连续 8 指令模式识别器**，不是覆盖所有可能的 Lua 编译形式的通用控制流分析器。没有匹配不代表不存在其他形式的赋值关系。
 
