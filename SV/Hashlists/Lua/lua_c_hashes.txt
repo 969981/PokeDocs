@@ -1440,7 +1440,7 @@
 0x6F84F6C93A50C067 main.network.receiver.AikotobaKeyboardState
 0x6F9ACAC432A78339 
 0x6FE667E9E95CDF8E 
-0x70015E8033B89DAE 
+0x70015E8033B89DAE dll_danbattle.ai.danpokemon.IDanPokemonTransitionModel
 0x7057A403FB439355 main.ui.btlspot.ui.BattleSpotUITournament
 0x705C400C55BC0C7F main.evolution.EvolutionManager
 0x70609931E9535F46 
@@ -2054,7 +2054,7 @@
 0x9E833F52C8588D4D main.battle.ui.BattleUiPokePartyInfo
 0x9E8AEBDDC0866769 main.system.game_event.GameEventCallSimpleAutoBattle
 0x9EAF5DD6F39FC057 main.management.pokedex.PokeDexBlackListDataAccessor
-0x9EB6F0A209502CC5 
+0x9EB6F0A209502CC5 dll_stadium.RankUtil
 0x9ECD4590F73F63B5 main.management.bgm_select.BGMSelectDataAccessor
 0x9ECEFF7DF6B3D447 main.ui.error.FatalErrorHandling
 0x9EDE8A2011D9A329 main.field.behaviour.PokePicnicPokemon
@@ -2913,7 +2913,7 @@
 0xE37367441EE87FEA 
 0xE375006AD3C03952 main.event.command.DemoReplaceTargetTableCommand
 0xE3824EC7C346466E main.egg_hatch.EggHatchCamera
-0xE3A24AF074805F8B 
+0xE3A24AF074805F8B dll_stadium.BattleSpotRankData
 0xE3B34BB406203CDA main.playables.network.NetRide
 0xE3BFBD60089B3629 
 0xE3E4E52F8031BF8F main.pokepicnic.cooking.CookingCursorController
@@ -3249,7 +3249,7 @@
 0xFBFCA99CE1C97253 main.event.debug.DebugChoiYoungchan
 0xFC2DE9C924277A7B main.ui.net_common.message.NetCommonUIMessageWindow
 0xFC38B9FC7090ACD9 main.system.game_event.GameEventPokePicnic
-0xFC3ACA6C64B990C2 
+0xFC3ACA6C64B990C2 dll_danbattle.ai.danpokemon.IDanPokemonController
 0xFC4B75F57D05BC08 main.ui.shop_wazamachine.view.ShopWazamachineParticle
 0xFC51B0D8A04AE223 main.field.behaviour.scenario.main.champion.gym.kusa.GymKusaPokeEscapeReactionState
 0xFC8F368D91411014 main.field.FieldUtility

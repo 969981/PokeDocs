@@ -1,0 +1,103 @@
+{
+  "title": "2026-11-05 next-phase H2 exact candidate audit",
+  "base_commit": "fcf6a1dcd32b0681e1f6687851a0257c8d213570",
+  "hash_algorithm": "FNV-1a-64 basis=0xCBF29CE484222645 prime=0x100000001B3",
+  "verified": 8,
+  "evidence_grade": "H2_HASH_EXACT_CANDIDATE",
+  "native_origin_confirmed": false,
+  "classification": "Names are compositional candidates; full hash is exact; static/runtime identities not proven.",
+  "records": [
+    {
+      "game": "SV",
+      "kind": "C",
+      "hash": "70015E8033B89DAE",
+      "name": "dll_danbattle.ai.danpokemon.IDanPokemonTransitionModel",
+      "method": "namespace_basename_cross",
+      "source_name": "main.ajito.chara.danpokemon.IDanPokemonTransitionModel",
+      "source_line": 459,
+      "namespace_name": "dll_danbattle.ai.danpokemon.DanPokemonController",
+      "namespace_line": 109,
+      "original_line": 1443
+    },
+    {
+      "game": "SV",
+      "kind": "C",
+      "hash": "FC3ACA6C64B990C2",
+      "name": "dll_danbattle.ai.danpokemon.IDanPokemonController",
+      "method": "namespace_basename_cross",
+      "source_name": "main.ajito.chara.danpokemon.IDanPokemonController",
+      "source_line": 1952,
+      "namespace_name": "dll_danbattle.ai.danpokemon.DanPokemonController",
+      "namespace_line": 109,
+      "original_line": 3252
+    },
+    {
+      "game": "SV",
+      "kind": "C",
+      "hash": "E3A24AF074805F8B",
+      "name": "dll_stadium.BattleSpotRankData",
+      "method": "namespace_basename_cross",
+      "source_name": "main.ui.btlspot.data.BattleSpotRankData",
+      "source_line": 748,
+      "namespace_name": "dll_stadium.StadiumAPI",
+      "namespace_line": 1368,
+      "original_line": 2916
+    },
+    {
+      "game": "SV",
+      "kind": "C",
+      "hash": "9EB6F0A209502CC5",
+      "name": "dll_stadium.RankUtil",
+      "method": "namespace_basename_cross",
+      "source_name": "main.ui.btlspot.util.RankUtil",
+      "source_line": 2204,
+      "namespace_name": "dll_stadium.StadiumAPI",
+      "namespace_line": 1368,
+      "original_line": 2057
+    },
+    {
+      "game": "ZA",
+      "kind": "F",
+      "hash": "1E99CC9E5F95EAB9",
+      "name": "ExecuteBirthday",
+      "method": "verb_replacement_Save_to_Execute",
+      "source_name": "SaveBirthday",
+      "source_line": 56,
+      "source_kind": "S",
+      "original_line": 32
+    },
+    {
+      "game": "ZA",
+      "kind": "F",
+      "hash": "513FE6669D290F42",
+      "name": "GetRivalText",
+      "method": "verb_replacement_Create_to_Get",
+      "source_name": "CreateRivalText",
+      "source_line": 379,
+      "source_kind": "S",
+      "original_line": 71
+    },
+    {
+      "game": "ZA",
+      "kind": "S",
+      "hash": "D3B4BEF35117C82F",
+      "name": "RemoveBousouAuraTag",
+      "method": "verb_replacement_Add_to_Remove",
+      "source_name": "AddBousouAuraTag",
+      "source_line": 264,
+      "source_kind": "S",
+      "original_line": 694
+    },
+    {
+      "game": "ZA",
+      "kind": "S",
+      "hash": "0EA2B6C4A18DBEE5",
+      "name": "RemoveChrAccessorForEventHandles",
+      "method": "verb_replacement_Create_to_Remove",
+      "source_name": "CreateChrAccessorForEventHandles",
+      "source_line": 741,
+      "source_kind": "S",
+      "original_line": 51
+    }
+  ]
+}
