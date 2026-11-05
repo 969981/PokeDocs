@@ -61,3 +61,23 @@ python scripts/lua_hash.py verify
 如果工作流未完成或报告无新候选，不要将未命名 Hash 视为已恢复。
 
 历史源文件已通过第一次完整 Header＋decompiled 审计：新增 Hash 命中 **0**（因为上一轮已回填 1 条直接 Header 命中），记录 **7 条冲突**、现有 17,948 个非空 Lua 名称校验通过；现在将约 42 MB 的 `main.dumped.lua` 也纳入扫描，以覆盖拆分文件未出现的字符串。该大文件依然只在 CI 临时工作区分析，不提交原始内容。
+
+## 已完成：历史完整版 Lua 实际扫描（2026-11-05）
+
+已完成 [GitHub Actions #41989024093](https://github.com/969981/PokeDocs/actions/runs/41989024093)，结论为 **SUCCESS**；并在 [GitHub Actions #41989024151](https://github.com/969981/PokeDocs/actions/runs/41989024151) 通过代码与 Hash 校验。
+
+| 检查项 | 实际结果 |
+| --- | --- |
+| 历史源码版本 | `SV-Script-RE@1f843bd2517c707fbb47491dad58856eaa2c2cc7` |
+| 输入 | `data/lua_names.h`、完整 `decompiled/`、`main.dumped.lua` |
+| 当前未知 Hash 的新增原名匹配 | **0** |
+| 旧版名称与现有映射的冲突 | **7**（保留现有，不覆盖） |
+| 当前已命名 Lua Hash 重算 | **17,948 / 17,948 匹配** |
+| 当前 SV/ZA Lua 未命名行 | **2,945** |
+| 导出审计 | Actions artifact：`SV-3.0.1-lua-hash-audit`，保留 30 天 |
+
+因为旧版 header 的 1 条原名已在第二轮提前回填，**此处 0 是增量命中，不是表示整个历史源码没有任何已知名称**。
+
+> [!IMPORTANT] **现有公开历史源码进一步挖掘已无新增**，而 SV 4.0.0 的 `main.blua` / `main_dynamic.blua` 在 `SV_Resources` 中仍只确认了 TRPFD 索引位置（21977、21978）。后续必须以实际原始字节码、场景/脚本字符串和调用上下文取得新来源，不能把原始 Hash 值对应的 C/F 文件名当作已经还原的可读符号名。
+
+ZA 的对应原始 Lua 脚本尚未取得和验证，本次不虚报 ZA 原生恢复进度。
