@@ -1,0 +1,60 @@
+{
+  "stage_one_exact_candidates": 24,
+  "stage_two_new_exact_candidates": 3,
+  "total_unique_H2_exact_candidates": 27,
+  "attempted_candidates_cumulative_with_repeated_grammars": 849825215,
+  "stage_two": {
+    "sv": {
+      "attempted_candidates": 152216932,
+      "matches_including_stage1": 12,
+      "additional_hits": 0,
+      "input_summary_sha256": "29705ac40c57dfac1e90b83b7c4302a8771d1f57fd1d2385e99ff5a560238994",
+      "input_matches_sha256": "056657b52f45511f521d880d1d073795501ae9277dc2b929808859a3549ab9fb"
+    },
+    "za": {
+      "attempted_candidates": 388577622,
+      "matches_including_stage1": 15,
+      "additional_hits": 3,
+      "input_summary_sha256": "9fc470b0b0c6e210b34786006f1d7f064cb4b41848a0a82ee0dd4adc0930544f",
+      "input_matches_sha256": "38e39b5d2987840b2d6f3639e8e6eb240fd7fa2cb2cc352fba02f00a92ec2dad"
+    }
+  },
+  "new_candidates": [
+    {
+      "game": "ZA",
+      "kind": "F",
+      "line": 151,
+      "hash": "0x931F8A64586A46A6",
+      "candidate": "ShowMessageNpcEvent",
+      "method": "verb_plus_three_extended_native_words",
+      "source_seed_or_word": "Message+Npc+Event",
+      "evidence_grade": "H2_SOURCE_DERIVED_EXACT_HASH_CANDIDATE",
+      "original_name_confirmed": false
+    },
+    {
+      "game": "ZA",
+      "kind": "S",
+      "line": 72,
+      "hash": "0x1463948047021356",
+      "candidate": "Get_BossNameIndex",
+      "method": "verb_plus_stem_plus_domain_suffix",
+      "source_seed_or_word": "Get_BossName",
+      "evidence_grade": "H2_SOURCE_DERIVED_EXACT_HASH_CANDIDATE",
+      "original_name_confirmed": false
+    },
+    {
+      "game": "ZA",
+      "kind": "S",
+      "line": 616,
+      "hash": "0xBE4399F61C307041",
+      "candidate": "WaitCreateObjectTemplate",
+      "method": "verb_plus_symbol_stem",
+      "source_seed_or_word": "CreateObjectTemplate",
+      "evidence_grade": "H2_SOURCE_DERIVED_EXACT_HASH_CANDIDATE",
+      "original_name_confirmed": false
+    }
+  ],
+  "official_hashlist_updates": 0,
+  "H3_native_original_name_confirmations": 0,
+  "note": "All seeds are H2-only. Exhausted specified grammar is not an exhausted 64-bit preimage search. Later hypotheses are not original names."
+}
