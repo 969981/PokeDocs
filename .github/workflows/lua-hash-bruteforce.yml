@@ -1,0 +1,104 @@
+name: SV ZA Lua hash 64-bit source-guided brute force
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [develop]
+    paths:
+      - 'scripts/hash_bruteforce.cpp'
+      - 'tests/test_hash_bruteforce.py'
+      - '.github/workflows/lua-hash-bruteforce.yml'
+      - 'SV/Hashlists/Lua/*.txt'
+      - 'ZA/Hashlists/Lua/*.txt'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lua-hash-bruteforce-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts/hash_bruteforce.cpp
+            tests/test_hash_bruteforce.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exhaustive grammar with known hash vectors and rejection tests
+        run: python -m unittest discover -s tests -p test_hash_bruteforce.py -v
+
+  brute:
+    needs: synthetic
+    strategy:
+      fail-fast: false
+      matrix:
+        game: [sv, za]
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: |
+            scripts/hash_bruteforce.cpp
+            SV/Hashlists/Lua
+            ZA/Hashlists/Lua
+      - name: Compile native 64-bit brute-force engine
+        run: g++ -std=c++20 -O3 -DNDEBUG -pthread -Wall -Wextra scripts/hash_bruteforce.cpp -o /tmp/hash_bruteforce
+      - name: Search verified source-guided naming grammar (300 million budget per game)
+        run: |
+          mkdir -p outputs
+          /tmp/hash_bruteforce --repo . --mode "${{ matrix.game }}" --budget 300000000 --out "outputs/${{ matrix.game }}"
+          cat "outputs/${{ matrix.game }}-summary.json"
+          cat "outputs/${{ matrix.game }}-matches.tsv"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lua-hash-grammar-${{ matrix.game }}-${{ github.run_number }}
+          path: outputs/
+          retention-days: 60
+
+  publish:
+    needs: brute
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 3
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /docs/evidence/hash-bruteforce-2026-11-05/**
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: lua-hash-grammar-*-${{ github.run_number }}
+          path: ./brute-results
+          merge-multiple: true
+      - name: Publish derived candidates only, never modify Hashlists
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/hash-bruteforce-2026-11-05
+          for game in sv za; do
+            test -s "brute-results/$game-summary.json"
+            test -s "brute-results/$game-matches.tsv"
+            cp "brute-results/$game-summary.json" "docs/evidence/hash-bruteforce-2026-11-05/$game-summary.json"
+            cp "brute-results/$game-matches.tsv" "docs/evidence/hash-bruteforce-2026-11-05/$game-matches.tsv"
+          done
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -f -- docs/evidence/hash-bruteforce-2026-11-05/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'analysis(lua): publish 64-bit source-guided brute-force candidate evidence'
+          git fetch origin develop
+          git rebase origin/develop
+          git push origin HEAD:develop
