@@ -1,0 +1,38 @@
+{
+  "version": "SV 4.0.0",
+  "input_kind": "SHA256-pinned-original-game-native-main.blua",
+  "main_sha256": "c1a4f4e2625912cf0b739a642a79ba3357df0557a544b92da22a6cb139de2815",
+  "root_prototype_instruction_count": 429034,
+  "factory_root_pc": 49,
+  "factory_child_proto_id": 19,
+  "factory_upvalues": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      13,
+      0
+    ]
+  ],
+  "captured_shared_metatable_root_register": 13,
+  "native_function_string": "setmetatable",
+  "native_field_string": "__fields__",
+  "metatable_field_names": [
+    "__newindex",
+    "__tostring"
+  ],
+  "tailcall_source": "setmetatable(new_table_with_fields, captured_metatable)",
+  "factory_directly_returns_raw_newtable": false,
+  "unknown_dual_C": 95,
+  "registration_uses_shared_factory": 95,
+  "class_name_hash_metadata_assignments_verified": 95,
+  "native_readable_class_names_recovered_from_name_field": 0,
+  "factory_register_R15_maywrite_sites_before_last_registration": 0,
+  "native_original_names_recovered": 0,
+  "runtime_instance_identity_confirmed": 0,
+  "verification": "Original bytes verified locally; GitHub Actions performs syntax/synthetic checks only.",
+  "evidence_limitation": "Same root global key, native factory source, and class-hash __name__ metadata do not prove runtime object identity or recover original readable names."
+}
