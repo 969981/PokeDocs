@@ -1,0 +1,108 @@
+name: SV ZA Lua hash brute force round 2 seeded grammar
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [develop]
+    paths:
+      - '.github/workflows/lua-hash-bruteforce-round2.yml'
+      - 'scripts/hash_bruteforce.cpp'
+      - 'tests/test_hash_bruteforce.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lua-hash-round2-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            scripts/hash_bruteforce.cpp
+            tests/test_hash_bruteforce.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Full C++ compiled and seeded grammar tests
+        run: python -m unittest discover -s tests -p test_hash_bruteforce.py -v
+
+  brute:
+    needs: synthetic
+    strategy:
+      fail-fast: false
+      matrix:
+        game: [sv, za]
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: |
+            scripts/hash_bruteforce.cpp
+            SV/Hashlists/Lua
+            ZA/Hashlists/Lua
+            docs/evidence/hash-bruteforce-2026-11-05/sv-matches.tsv
+            docs/evidence/hash-bruteforce-2026-11-05/za-matches.tsv
+      - name: Compile optimized native brute-force engine
+        run: g++ -std=c++20 -O3 -DNDEBUG -pthread scripts/hash_bruteforce.cpp -o /tmp/hash_bruteforce
+      - name: Enumerate H2-seeded namespaces and 150-word triples
+        run: |
+          mkdir -p outputs
+          /tmp/hash_bruteforce --repo . --mode "${{ matrix.game }}" \
+            --extended --budget 650000000 \
+            --seed docs/evidence/hash-bruteforce-2026-11-05/sv-matches.tsv \
+            --seed docs/evidence/hash-bruteforce-2026-11-05/za-matches.tsv \
+            --out "outputs/${{ matrix.game }}-round2"
+          cat "outputs/${{ matrix.game }}-round2-summary.json"
+          cat "outputs/${{ matrix.game }}-round2-matches.tsv"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lua-hash-round2-${{ matrix.game }}-${{ github.run_number }}
+          path: outputs/
+          retention-days: 60
+
+  publish:
+    needs: brute
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 3
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /docs/evidence/hash-bruteforce-2026-11-05/**
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: lua-hash-round2-*-${{ github.run_number }}
+          path: ./results
+          merge-multiple: true
+      - name: Publish stage-two evidence without changing any hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/hash-bruteforce-2026-11-05
+          for game in sv za; do
+            for kind in summary.json matches.tsv; do
+              test -s "results/$game-round2-$kind"
+              cp "results/$game-round2-$kind" "docs/evidence/hash-bruteforce-2026-11-05/$game-round2-$kind"
+            done
+          done
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --sparse -f docs/evidence/hash-bruteforce-2026-11-05/*-round2-*
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'analysis(lua): publish H2-seeded round-two brute-force evidence'
+          git fetch origin develop
+          git rebase origin/develop
+          git push origin HEAD:develop
