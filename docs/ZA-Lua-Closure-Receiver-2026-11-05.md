@@ -60,6 +60,25 @@ ZA_Resources 四份完整、SHA-256 固定的 Lua 5.4 字节码，3,064 C→F �
 
 所有记录 receiver_class_confirmed=NO，original_name_confirmed=NO。需要沿上层 CLOSURE、Upvalue 捕获指令、全局赋值以及对象构造路径建立实例身份；不从同现 Hash、Haxe 命名或静态 C 键直接升级 H3。
 
+## 增量交叉验证：32 指令窗口的接收者寄存器来源
+
+另一只读分析器 [Trace-ZA-Lua-ReceiverOrigin.py](https://github.com/969981/ZA_Resources/blob/master/scripts/Trace-ZA-Lua-ReceiverOrigin.py) 从已验证的 **1,488 条闭包上下文 TSV** 出发，逐项核查真实 `field_pc / call_pc`，使用最多 **32 条指令**的直线寄存器值传播；遇分支入口、未处理指令或副作用清空状态。[原生 Actions 42025572544](https://github.com/969981/ZA_Resources/actions/runs/42025572544) 通过，并在 master 发布结果。
+
+| 证据 | 数量 |
+| --- | ---: |
+| 重新核查的原生字段→调用 | 1,488 |
+| 寄存器来源为 UPVALUE_PATH | **933** |
+| 无足够安全寄存器来源 | **555** |
+| 共同指向 `UPVALUE[0].C0C062DE5AED06885` 的寄存器路径 | **909** |
+| 运行时接收对象类别 / 原始名称确认 | **0 / 0** |
+
+- [逐边寄存器路径](https://github.com/969981/ZA_Resources/blob/master/Unpack/v2.0.2/romfs/arc/data.trpfs/_index/lua-native/native-unknown-receiver-register-provenance.tsv)
+- [按来源统计和输入 SHA](https://github.com/969981/ZA_Resources/blob/master/Unpack/v2.0.2/romfs/arc/data.trpfs/_index/lua-native/native-unknown-receiver-register-summary.json)
+
+**与上面 16 指令逆向回溯的 926/908 不能直接作差作为新增确认。** 两个分析器采用不同指令窗口、指令安全规则和来源分类；32 指令模型的 909 是完整 Upvalue 寄存器路径相等计数，16 指令模型的 908 是更严格的 `GETTABUP` 类键定位计数。二者均是局部词法证据，不证明 Upvalue 0 的实际表值或调用目标身份。
+
+因此优先检查两个分析器相交且来源可复核的 C 键，然后再做真正的 Upvalue 捕获链和类表构造分析；不要以扩大窗口代替跨函数证明。
+
 ## 剩余五条缺失 S：范围已缩小
 
 [完整 Trinity Pack 审计](https://github.com/969981/ZA_Resources/blob/master/Unpack/v2.0.2/romfs/arc/data.trpfs/_index/lua-native/native-lua-pack-coverage.json) 确认本版本 13,181 个资源包中只有四个 .blua.trpak（12145–12148）；四份字节码的目标常量池覆盖 157/162 个原始未解决 Hash。另五个 S 在该范围内不存在：原始 S 行 23、72、164、403、685，对应 062729EC443620C2、1463948047021356、34AD86B7E5BB1526、81E0610BF8B9337C、D0F61B3481E43C08。第三方线索集中于 Ev_sys_megarematch 与 Ev_sys_megarematch_lose，不能视作原版源码标识符。
