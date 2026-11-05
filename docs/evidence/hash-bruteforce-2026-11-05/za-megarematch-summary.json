@@ -1,0 +1,14 @@
+{
+ "game":"ZA",
+ "version":"v2.0.2",
+ "algorithm":"FNV-1a 64-bit source-constrained event word grammar",
+ "input_scope":"Haxe reconstructed Ev_sys_megarematch context; not original native Lua source names",
+ "expected_five_missing_S_hashes":5,
+ "budget":400000000,
+ "attempted_candidates":317296440,
+ "budget_exhausted":false,
+ "matched_unique_target_hashes":3,
+ "matched_hashes_not_in_prior_two_rounds":1,
+ "native_original_name_confirmations":0,
+ "hashlist_updates":0
+}

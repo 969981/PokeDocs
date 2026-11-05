@@ -1,0 +1,4 @@
+game	kind	hash	line	candidate	evidence	prior_H2_seed	event_role
+ZA	S	0x062729EC443620C2	23	Get_BossName	single_context_word	YES	name_from_selection
+ZA	S	0x1463948047021356	72	Get_BossNameIndex	single_context_word	YES	selection_from_context_menu
+ZA	S	0x34AD86B7E5BB1526	164	Get_BossBattleID	single_context_word	NO	boss_id_from_selection
