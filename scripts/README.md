@@ -41,3 +41,7 @@ python scripts/rank_sv_c_namespace.py --repo . --assignments "c2f.tsv.gz" --outp
 ~~~
 
 The ranking is **not** a name recovery, C-to-S proof, inheritance proof, or dynamic-call proof. Generated local report and original Lua files need not be committed. See [../docs/Lua-Next-Phase-2026-11-05.md](../docs/Lua-Next-Phase-2026-11-05.md).
+
+## Pinned SV/ZA Lua investigation queues
+
+`python scripts/build_native_lua_research_queue.py --check` verifies the exact 1,334-class SV native C inventory and 155 ZA unresolved S/F Haxe reference prioritization. It is read-only. The original evidence TSV and source commit SHAs are under `docs/evidence/lua-join-2026-11-05/`; `--write` regenerates only the three derived evidence files from those snapshots. No unknown names are written into Hashlists.

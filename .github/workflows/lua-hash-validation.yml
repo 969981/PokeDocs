@@ -18,3 +18,6 @@ jobs:
         run: python scripts/lua_hash.py verify
       - name: Audit pinned SV_Resources evidence and source-line indices
         run: python scripts/verify_sv_resources_import.py
+
+      - name: Verify pinned native C and Haxe S/F investigation queues
+        run: python scripts/build_native_lua_research_queue.py --check
