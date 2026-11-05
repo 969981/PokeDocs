@@ -1,0 +1,29 @@
+{
+  "evidence": "H2_SOURCE_DERIVED_EXACT_HASH_CANDIDATE_NOT_NATIVE_NAME",
+  "source_file_sha256": {
+    "sv-matches.tsv": "f2411ecb69fca1b0e85344f80100cea0a4c0aaca0f9c01dd95cebc79d35ee178",
+    "za-matches.tsv": "1f82d82659933280706e67058a6e7e526a4fd70f5f6a895f7a659fe90db2d906",
+    "sv-round2-matches.tsv": "056657b52f45511f521d880d1d073795501ae9277dc2b929808859a3549ab9fb",
+    "za-round2-matches.tsv": "38e39b5d2987840b2d6f3639e8e6eb240fd7fa2cb2cc352fba02f00a92ec2dad",
+    "za-megarematch-matches.tsv": "d25250cc6892a7e78b200295d3c49e0d8d5a0ad0a9d086839ee5d38374371e88"
+  },
+  "unique_candidates": 28,
+  "by_game_kind": {
+    "SV_C": 12,
+    "ZA_F": 6,
+    "ZA_S": 10
+  },
+  "ZA_without_current_native_opcode": [
+    "S062729EC443620C2",
+    "S1463948047021356",
+    "S34AD86B7E5BB1526"
+  ],
+  "overlay_sha256": "3f6b59c754ecab42bbebb8168a239cf4496efbce662c17d4c8d29fc5949154dc",
+  "native_original_names_confirmed": 0,
+  "official_hashlist_updates": 0,
+  "warnings": [
+    "Overlay does not overwrite upstream PokeDocs Hashlists.",
+    "A full FNV-1a 64-bit candidate match is H2, not proof of original source identity.",
+    "ZA current opcode absence reflects only the existing pinned four native Lua packs."
+  ]
+}
