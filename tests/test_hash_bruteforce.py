@@ -87,6 +87,37 @@ class HashBruteforceTests(unittest.TestCase):
         self.assertIn("SetRequest", matches)
         self.assertEqual(report["exact_hash_matching_candidates"], 2)
 
+    def test_extended_H2_seed_is_validated_and_never_upgraded(self):
+        seed = self.repo / "prior-H2.tsv"
+        name = "main.fake.KnownManager"
+        digest = hash_name(name)
+        seed.write_text(
+            "game\tkind\tline\thash\tcandidate\tmethod\tprefix_source\tleaf_or_stem_source\n"
+            f"SV\tc\t3\t0x{digest:016X}\t{name}\tgrammar\tmain.fake.KnownData\tKnown\n",
+            encoding="utf-8")
+        prefix = self.repo / "extended"
+        cmd = [str(self.binary), "--repo", str(self.repo), "--mode", "sv",
+               "--out", str(prefix), "--budget", "5000000",
+               "--extended", "--seed", str(seed)]
+        subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=90)
+        result = json.loads((self.repo / "extended-summary.json").read_text())
+        self.assertEqual(result["native_original_names_confirmed"], 0)
+        self.assertIn("namespace_local_prefix_stem_suffix", result["phases"])
+        self.assertEqual(result["exact_hash_matching_candidates"], 1)
+
+    def test_corrupt_H2_seed_is_rejected(self):
+        seed = self.repo / "bad-H2.tsv"
+        seed.write_text(
+            "game\tkind\tline\thash\tcandidate\tmethod\tprefix_source\tleaf_or_stem_source\n"
+            "SV\tc\t3\t0xFFFFFFFFFFFFFFFF\tmain.fake.KnownManager\tgrammar\tsource\tstem\n",
+            encoding="utf-8")
+        proc = subprocess.run([str(self.binary), "--repo", str(self.repo),
+                               "--mode", "sv", "--out", str(self.repo/"out"),
+                               "--budget", "100000", "--extended",
+                               "--seed", str(seed)], capture_output=True, text=True)
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn("Prior H2 candidate failed", proc.stderr)
+
     def test_wrong_existing_symbol_hash_rejected(self):
         p = self.repo / "SV/Hashlists/Lua/lua_c_hashes.txt"
         s = p.read_text().replace("0x"+f"{hash_name('main.fake.KnownData'):016X}", "0xFFFFFFFFFFFFFFFF")
